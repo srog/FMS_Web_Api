@@ -15,7 +15,7 @@ namespace Fms_Web_Api.Data
 
         public void Dispose() => _connection.Dispose();
 
-        public int Execute(string storedProcName, object param)
+        public int Execute(string storedProcName, object param = null)
         {
             return _connection.Execute(storedProcName, param, commandType: CommandType.StoredProcedure);
         }

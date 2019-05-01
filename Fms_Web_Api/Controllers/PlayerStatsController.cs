@@ -11,10 +11,10 @@ namespace Fms_Web_Api.Controllers
         private readonly PlayerStatsQuery _PlayerStatsQuery = new PlayerStatsQuery();
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<PlayerStats> Get(int id)
+        [HttpGet("{playerId}")]
+        public ActionResult<PlayerStats> Get(int playerId)
         {
-            return _PlayerStatsQuery.Get(id);
+            return _PlayerStatsQuery.Get(playerId);
         }
 
         // POST api/values
@@ -29,13 +29,6 @@ namespace Fms_Web_Api.Controllers
         public int Put([FromBody] PlayerStats PlayerStats)
         {
             return _PlayerStatsQuery.Update(PlayerStats);
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _PlayerStatsQuery.Delete(id);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using Fms_Web_Api.Models;
+﻿using Fms_Web_Api.Models;
 
 namespace Fms_Web_Api.Data
 {
@@ -9,21 +8,17 @@ namespace Fms_Web_Api.Data
         private const string INSERT = "spInsertPlayerAttributes";
         private const string UPDATE = "spUpdatePlayerAttributes";
 
-        public PlayerAttributes Get(int id)
+        public PlayerAttributes Get(int playerId)
         {
-            return GetSingle<PlayerAttributes>(GET, id);
+            return GetSingleById<PlayerAttributes>(GET, "playerId", playerId);
         }
         public int Add(PlayerAttributes playerAttributes)
         {
-            return Add<PlayerAttributes>(INSERT, new {  });
+            return Add(INSERT, new { playerAttributes.Aggression, playerAttributes.Crossing, playerAttributes.Defending, playerAttributes.Form, playerAttributes.Handling, playerAttributes.Happiness, playerAttributes.Morale, playerAttributes.Passing, playerAttributes.PlayerId, playerAttributes.Shooting, playerAttributes.Skills, playerAttributes.Stamina, playerAttributes.Strength, playerAttributes.Tackling });
         }
         public int Update(PlayerAttributes playerAttributes)
         {
-            return Update<PlayerAttributes>(UPDATE, new { });
-        }
-        public int Delete(int id)
-        {
-            return Delete(id);
+            return Update(UPDATE, new { playerAttributes.Id, playerAttributes.Aggression, playerAttributes.Crossing, playerAttributes.Defending, playerAttributes.Form, playerAttributes.Handling, playerAttributes.Happiness, playerAttributes.Morale, playerAttributes.Passing, playerAttributes.PlayerId, playerAttributes.Shooting, playerAttributes.Skills, playerAttributes.Stamina, playerAttributes.Strength, playerAttributes.Tackling });
         }
 
     }

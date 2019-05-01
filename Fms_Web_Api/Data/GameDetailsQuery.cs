@@ -6,9 +6,10 @@ namespace Fms_Web_Api.Data
     public class GameDetailsQuery : Query
     {
         private const string GET_ALL = "spGetAllGameDetails";
-        private const string GET = "spGetGameDetails";
+        private const string GET = "spGetGameDetailsById";
         private const string INSERT = "spInsertGameDetails";
         private const string UPDATE = "spUpdateGameDetails";
+        private const string DELETE = "spDeleteGameDetails";
 
         public IEnumerable<GameDetails> GetAll()
         {
@@ -20,15 +21,15 @@ namespace Fms_Web_Api.Data
         }
         public int Add(GameDetails gameDetails)
         {
-            return Add<GameDetails>(INSERT, new { gameDetails.ManagerName, gameDetails.TeamId, gameDetails.CurrentYear, gameDetails.CurrentWeek});
+            return Add(INSERT, new { gameDetails.ManagerName, gameDetails.TeamId, gameDetails.CurrentSeasonId, gameDetails.CurrentWeek});
         }
         public int Update(GameDetails gameDetails)
         {
-            return Update<GameDetails>(UPDATE, new { gameDetails.Id, gameDetails.ManagerName, gameDetails.CurrentYear, gameDetails.TeamId, gameDetails.CurrentWeek });
+            return Update(UPDATE, new { gameDetails.Id, gameDetails.ManagerName, gameDetails.CurrentSeasonId, gameDetails.TeamId, gameDetails.CurrentWeek });
         }
         public int Delete(int id)
         {
-            return Delete(id);
+            return Delete(DELETE, id);
         }
 
     }

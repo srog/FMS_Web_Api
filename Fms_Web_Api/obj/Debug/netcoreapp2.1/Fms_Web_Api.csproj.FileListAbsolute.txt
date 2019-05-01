@@ -12,3 +12,16 @@ D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.p
 D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.dll
 D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.pdb
 D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.csprojAssemblyReference.cache
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.deps.json
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.runtimeconfig.json
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.runtimeconfig.dev.json
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.dll
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.pdb
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.csproj.CoreCompileInputs.cache
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.RazorAssemblyInfo.cache
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.RazorAssemblyInfo.cs
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.AssemblyInfoInputs.cache
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.AssemblyInfo.cs
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.RazorTargetAssemblyInfo.cache
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.dll
+D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.pdb

@@ -1,4 +1,6 @@
-﻿using Fms_Web_Api.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Fms_Web_Api.Models;
 using Fms_Web_Api.Utilities;
 
 namespace Fms_Web_Api.Data
@@ -26,7 +28,7 @@ namespace Fms_Web_Api.Data
         }
 
         // change to decorator pattern !
-        public void CreatePlayer(int teamId, int position)
+        public void CreatePlayer(int teamId, int position, int gameDetailsId)
         {
             // create basic player info
             var player = new Player
@@ -34,7 +36,8 @@ namespace Fms_Web_Api.Data
                 TeamId = teamId,
                 Age = Utilities.Utilities.GetRandomNumber(18, 38),
                 Position = position,
-                Name = Utilities.Utilities.GetRandomName()
+                Name = Utilities.Utilities.GetRandomName(),
+                GameDetailsId = gameDetailsId
             };
             var playerId = _playerQuery.Add(player);
             player.Id = playerId;
@@ -163,19 +166,20 @@ namespace Fms_Web_Api.Data
             return playerAttributes;
         }
 
-        public void CreateAllPlayers()
+        public void CreateAllPlayersForGame(IEnumerable<Team> teamList)
         {
-            var teams = _teamQuery.GetAll();
-            foreach (var team in teams)
+            var gameDetailsId = teamList.First().GameDetailsId;
+
+            foreach (var team in teamList)
             {
-                2.TimesWithIndex((i) => CreatePlayer(team.Id, 1));
-                5.TimesWithIndex((i) => CreatePlayer(team.Id, 2));
-                5.TimesWithIndex((i) => CreatePlayer(team.Id, 3));
-                5.TimesWithIndex((i) => CreatePlayer(team.Id, 4));
+                2.TimesWithIndex((i) => CreatePlayer(team.Id, 1, gameDetailsId));
+                5.TimesWithIndex((i) => CreatePlayer(team.Id, 2, gameDetailsId));
+                5.TimesWithIndex((i) => CreatePlayer(team.Id, 3, gameDetailsId));
+                5.TimesWithIndex((i) => CreatePlayer(team.Id, 4, gameDetailsId));
             }
 
             // add transfer pool players
-            25.TimesWithIndex((i) => CreatePlayer(0, Utilities.Utilities.GetRandomNumber(1, 4)));
+            25.TimesWithIndex((i) => CreatePlayer(0, Utilities.Utilities.GetRandomNumber(1, 4), gameDetailsId));
         }
     }
     

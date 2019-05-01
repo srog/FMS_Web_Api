@@ -9,7 +9,8 @@ namespace Fms_Web_Api.Models
     {
         [DataMember]
         public int Id { get; set; }
-
+        [DataMember]
+        public int GameDetailsId { get; set; }
         [DataMember]
         public string Name { get; set; }
         [DataMember]

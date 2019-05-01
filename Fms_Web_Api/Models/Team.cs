@@ -20,5 +20,7 @@ namespace Fms_Web_Api.Models
         public int Cash { get; set; }
         [DataMember]
         public int StadiumCapacity { get; set; }
+        [DataMember]
+        public int GameDetailsId { get; set; }
     }
 }
