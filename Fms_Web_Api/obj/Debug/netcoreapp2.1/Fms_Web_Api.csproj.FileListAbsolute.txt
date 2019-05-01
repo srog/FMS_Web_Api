@@ -1,0 +1,14 @@
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.deps.json
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.runtimeconfig.json
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.runtimeconfig.dev.json
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.dll
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.csproj.CoreCompileInputs.cache
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.RazorAssemblyInfo.cache
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.RazorAssemblyInfo.cs
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.AssemblyInfoInputs.cache
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.AssemblyInfo.cs
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.RazorTargetAssemblyInfo.cache
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\bin\Debug\netcoreapp2.1\Fms_Web_Api.pdb
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.dll
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.pdb
+D:\Code\FootManSim\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.csprojAssemblyReference.cache
