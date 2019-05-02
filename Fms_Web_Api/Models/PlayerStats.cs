@@ -23,6 +23,10 @@ namespace Fms_Web_Api.Models
         public int Assists { get; set; }
         [DataMember]
         public int CleanSheets { get; set; }
+        [DataMember]
+        public int RedCards { get; set; }
+        [DataMember]
+        public int YellowCards { get; set; }
 
         public PlayerStats(int playerId)
         {
@@ -31,6 +35,8 @@ namespace Fms_Web_Api.Models
             Goals = 0;
             Assists = 0;
             CleanSheets = 0;
+            RedCards = 0;
+            YellowCards = 0;
         }
     }
 }

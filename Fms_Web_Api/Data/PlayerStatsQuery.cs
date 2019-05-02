@@ -15,11 +15,11 @@ namespace Fms_Web_Api.Data
 
         public int Add(PlayerStats playerStats)
         {
-            return Add(INSERT, new { playerStats.Assists, playerStats.CleanSheets, playerStats.Games, playerStats.Goals, playerStats.PlayerId });
+            return Add(INSERT, new { playerStats.Assists, playerStats.CleanSheets, playerStats.Games, playerStats.Goals, playerStats.PlayerId, playerStats.RedCards, playerStats.YellowCards });
         }
         public int Update(PlayerStats playerStats)
         {
-            return Update(UPDATE, new { playerStats.Id, playerStats.Assists, playerStats.CleanSheets, playerStats.Games, playerStats.Goals, playerStats.PlayerId });
+            return Update(UPDATE, new { playerStats.Id, playerStats.Assists, playerStats.CleanSheets, playerStats.Games, playerStats.Goals, playerStats.PlayerId, playerStats.RedCards, playerStats.YellowCards });
         }
     }
 
