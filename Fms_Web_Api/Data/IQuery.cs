@@ -9,6 +9,7 @@ namespace Fms_Web_Api.Data
         T GetSingle<T>(string storedProcedureName, int id);
         T GetSingleById<T>(string storedProcedureName, string parameterName, int idValue);
         int Add(string storedProcedureName, object param);
+        int Add(string storedProcedureName, Dictionary<string, object> param);
         int Update(string storedProcedureName, object param);
         int Delete(string storedProcedureName, int id);
 

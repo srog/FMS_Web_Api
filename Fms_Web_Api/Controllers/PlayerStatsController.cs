@@ -12,7 +12,7 @@ namespace Fms_Web_Api.Controllers
 
         // GET api/values/5
         [HttpGet("{playerId}")]
-        public ActionResult<PlayerStats> Get(int playerId)
+        public ActionResult<PlayerStats> GetStatsForPlayer(int playerId)
         {
             return _PlayerStatsQuery.Get(playerId);
         }

@@ -5,22 +5,21 @@ namespace Fms_Web_Api.Models
 {
     [DataContract]
     [Serializable]
-    public class Team
+    public class MatchGoal
     {
         [DataMember]
         public int Id { get; set; }
-
         [DataMember]
-        public string Name { get; set; }
+        public int MatchId { get; set; }
         [DataMember]
-        public int YearFormed { get; set; }
+        public int Minute { get; set; }
         [DataMember]
-        public int DivisionId { get; set; }
+        public int PlayerId { get; set; }
         [DataMember]
-        public int Cash { get; set; }
+        public int TeamId { get; set; }
         [DataMember]
-        public int StadiumCapacity { get; set; }
+        public int AssistPlayerId { get; set; }
         [DataMember]
-        public int GameDetailsId { get; set; }
+        public bool OwnGoal { get; set; }
     }
 }

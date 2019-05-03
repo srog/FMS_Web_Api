@@ -14,21 +14,29 @@ namespace Fms_Web_Api.Controllers
         private readonly SeasonQuery _seasonQuery = new SeasonQuery();
         private readonly GameDetailsQuery _gameQuery = new GameDetailsQuery();
 
-        //// GET api/values/5
-        //[HttpGet("{gameDetailsId}")]
-        //public ActionResult<IEnumerable<Season>> Get(int gameDetailsId)
-        //{
-        //    return _seasonQuery.GetByGame(gameDetailsId).ToList();
-        //}
+        // GET api/season?id=5
+        [HttpGet]
+        public ActionResult<Season> Get(int id)
+        {
+            return _seasonQuery.Get(id);
+        }
 
         // GET api/season/5
         [HttpGet("{gameDetailsId}")]
-        public ActionResult<Season> Get(int gameDetailsId)
+        public ActionResult<Season> GetCurrentSeasonForGame(int gameDetailsId)
         {
             var game = _gameQuery.Get(gameDetailsId);
 
             return _seasonQuery.GetByGame(gameDetailsId).ToList().Where(s => s.Id == game.CurrentSeasonId).FirstOrDefault();
         }
+
+        // GET api/season/5
+        //[HttpGet]
+        //public ActionResult<IEnumerable<Season>> GetAllSeasonsForGame(int gameDetailsId)
+        //{
+        //    return _seasonQuery.GetByGame(gameDetailsId).ToList();
+        //}
+
 
         // POST api/values
         [HttpPost]

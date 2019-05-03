@@ -28,15 +28,15 @@ namespace Fms_Web_Api.Models
         [DataMember]
         public int YellowCards { get; set; }
 
-        public PlayerStats(int playerId)
-        {
-            PlayerId = playerId;
-            Games = 0;
-            Goals = 0;
-            Assists = 0;
-            CleanSheets = 0;
-            RedCards = 0;
-            YellowCards = 0;
-        }
+        //public PlayerStats(int playerId)
+        //{
+        //    PlayerId = playerId;
+        //    Games = 0;
+        //    Goals = 0;
+        //    Assists = 0;
+        //    CleanSheets = 0;
+        //    RedCards = 0;
+        //    YellowCards = 0;
+        //}
     }
 }

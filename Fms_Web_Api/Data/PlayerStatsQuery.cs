@@ -1,4 +1,5 @@
-﻿using Fms_Web_Api.Models;
+﻿using System.Collections.Generic;
+using Fms_Web_Api.Models;
 
 namespace Fms_Web_Api.Data
 {
@@ -15,7 +16,10 @@ namespace Fms_Web_Api.Data
 
         public int Add(PlayerStats playerStats)
         {
-            return Add(INSERT, new { playerStats.Assists, playerStats.CleanSheets, playerStats.Games, playerStats.Goals, playerStats.PlayerId, playerStats.RedCards, playerStats.YellowCards });
+            return Add(INSERT, new Dictionary<string, object>
+                {
+                    {"playerId", playerStats.PlayerId}
+                });
         }
         public int Update(PlayerStats playerStats)
         {

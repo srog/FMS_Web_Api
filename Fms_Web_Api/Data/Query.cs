@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Dapper;
 
 namespace Fms_Web_Api.Data
@@ -41,11 +42,15 @@ namespace Fms_Web_Api.Data
         }
 
         // Returns the newly created ID , not the SQL result
-        public int Add(string storedProcedureName, object param)
+        public int Add(string storedProcedureName, Dictionary<string, object> param)
         {
             var allParam = new DynamicParameters();
             allParam.Add("id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            allParam.AddDynamicParams(param);
+
+            foreach (var par in param)
+            {
+                allParam.Add(par.Key, par.Value);
+            }
 
             var result = _dataAccessor.QuerySingle<int>(storedProcedureName, allParam);
             if (result != 0)
@@ -53,6 +58,17 @@ namespace Fms_Web_Api.Data
                 return 0; // error
             }
             return allParam.Get<int>("id");
+        }
+
+        // Returns the newly created ID , not the SQL result
+        public int Add(string storedProcedureName, object param)
+        {
+            var result = _dataAccessor.QuerySingle<int>(storedProcedureName, param);
+            if (result != 0)
+            {
+                return 0; // error
+            }
+            return result;
         }
 
         public int Update(string storedProcedureName, object param)
