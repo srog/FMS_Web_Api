@@ -21,7 +21,10 @@ namespace Fms_Web_Api.Data
         }
         public int Add(GameDetails gameDetails)
         {
-            return Add(INSERT, new { gameDetails.ManagerName, gameDetails.TeamId, gameDetails.CurrentSeasonId, gameDetails.CurrentWeek});
+            return Add(INSERT, new Dictionary<string, object>
+                {
+                    { "managerName", gameDetails.ManagerName }
+                });
         }
         public int Update(GameDetails gameDetails)
         {

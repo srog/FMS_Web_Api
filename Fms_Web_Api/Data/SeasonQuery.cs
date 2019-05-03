@@ -27,7 +27,12 @@ namespace Fms_Web_Api.Data
         }
         public int Add(Season season)
         {
-            return Add(INSERT, new { season.Completed, season.GameDetailsId, season.StartYear });
+            return Add(INSERT, new Dictionary<string, object>
+                {
+                    { "completed", season.Completed },
+                    { "gameDetailsId", season.GameDetailsId },
+                    { "startYear", season.StartYear }
+                });
         }
         public int Update(Season season)
         {

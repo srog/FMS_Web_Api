@@ -47,7 +47,7 @@ namespace Fms_Web_Api.Data
             var attr = _playerAttributesQuery.Add(playerAttributes);
 
             // create stats
-            var result = _playerStatsQuery.Add(new PlayerStats(player.Id));
+            var result = _playerStatsQuery.Add(new PlayerStats { PlayerId=player.Id});
 
             // set player rating and value
             player.Rating = RecalculatePlayerRating(playerAttributes);

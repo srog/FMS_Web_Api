@@ -12,36 +12,36 @@ namespace Fms_Web_Api.Controllers
     {
         private readonly TeamQuery _teamQuery = new TeamQuery();
 
-        // GET api/values
+        // GET api/team?id=5
         [HttpGet]
-        public ActionResult<IEnumerable<Team>> Get()
-        {
-            return _teamQuery.GetAll().ToList();
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
         public ActionResult<Team> Get(int id)
         {
             return _teamQuery.Get(id);
         }
 
-        // POST api/values
+        // GET api/team/12
+        [HttpGet("{gameDetailsid}")]
+        public ActionResult<IEnumerable<Team>> GetTeamsForGame(int gameDetailsId)
+        {
+            return _teamQuery.GetByGame(gameDetailsId).ToList();
+        }
+
+        // POST api/team
         [HttpPost]
         public int Post([FromBody] Team team)
         {
             return _teamQuery.Add(team);
         }
 
-        // PUT api/values/5
+        // PUT api/team/
         [HttpPut]
         public int Put([FromBody] Team team)
         {
             return _teamQuery.Update(team);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
+        // DELETE api/team/5
+        [HttpDelete]
         public void Delete(int id)
         {
             _teamQuery.Delete(id);

@@ -12,17 +12,15 @@ namespace Fms_Web_Api.Controllers
     {
         private readonly PlayerQuery _PlayerQuery = new PlayerQuery();
 
-        // GET api/player?teamId=
+        // GET api/player/123
         [HttpGet("{teamId}")]
-        public ActionResult<IEnumerable<Player>> Get(string teamId = "")
+        public ActionResult<IEnumerable<Player>> GetPlayers(int teamId)
         {
-            return string.IsNullOrEmpty(teamId)
-                ? _PlayerQuery.GetAll().ToList() 
-                : _PlayerQuery.GetAllByTeam(int.Parse(teamId)).ToList();
+            return _PlayerQuery.GetAllByTeam(teamId).ToList();
         }
 
         // GET api/player/5
-        [HttpGet("{id}")]
+        [HttpGet]
         public ActionResult<Player> Get(int id)
         {
             return _PlayerQuery.Get(id);
@@ -43,12 +41,12 @@ namespace Fms_Web_Api.Controllers
         }
 
         // Experimental
-        [Route("player/retire?id=0")]
-        [HttpPut("{id}")]
-        public int Put(int id)
-        {
-            return _PlayerQuery.Retire(id);
-        }
+        //[Route("player/retire?id=0")]
+        //[HttpPut("{id}")]
+        //public int Put(int id)
+        //{
+        //    return _PlayerQuery.Retire(id);
+        //}
 
     }
 }

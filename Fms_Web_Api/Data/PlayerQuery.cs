@@ -8,7 +8,7 @@ namespace Fms_Web_Api.Data
         private const string GET_ALL = "spGetAllPlayers";
         private const string GET_ALL_FREE_AGENTS = "spGetAllFreeAgents";
         private const string GET_ALL_FREE_TRANSFERS = "spGetAllFreeTransfers";
-        private const string GET_ALL_FOR_TEAM = "spGetPlayersByTeam";
+        private const string GET_ALL_FOR_TEAM = "spGetPlayersByTeamId";
         private const string GET = "spGetPlayerById";
         private const string INSERT = "spInsertPlayer";
         private const string UPDATE = "spUpdatePlayer";
@@ -48,8 +48,20 @@ namespace Fms_Web_Api.Data
         }
         public int Add(Player player)
         {
-            return Add(INSERT, new { player.GameDetailsId, player.Age, player.InjuredWeeks, player.Position, player.Name, player.Rating, player.Retired, player.TeamId, player.Value });
-        }
+            return Add(INSERT, new Dictionary<string, object>
+                {
+                    { "age", player.Age },
+                    { "injuredWeeks", player.InjuredWeeks },
+                    { "position", player.Position },
+                    { "name", player.Name },
+                    { "rating", player.Rating },
+                    { "retired", player.Retired },
+                    { "teamId", player.TeamId },
+                    { "value", player.Value },
+                    { "gameDetailsId", player.GameDetailsId }
+                });
+
+      }
         public int Update(Player player)
         {
             return Update(UPDATE, new { player.Id, player.Age, player.InjuredWeeks, player.Position, player.Name, player.Rating, player.Retired, player.TeamId, player.Value });

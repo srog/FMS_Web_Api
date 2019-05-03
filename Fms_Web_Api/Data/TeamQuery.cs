@@ -15,10 +15,11 @@ namespace Fms_Web_Api.Data
         private const string DELETE = "spDeleteTeam";
 
 
-        public void CreateAllTeamsForGame(int id)
+        public void CreateAllTeamsForGame(int gameId)
         {
             foreach (var team in TeamTemplates.TeamsTemplate)
             {
+                team.GameDetailsId = gameId;
                 Add(team);
             }
         }
@@ -41,11 +42,19 @@ namespace Fms_Web_Api.Data
         }
         public int Add(Team team)
         {
-            return Add(INSERT, new { team.Cash, team.Division, team.Name, team.StadiumCapacity, team.YearFormed, team.GameDetailsId });
+            return Add(INSERT, new Dictionary<string, object>
+                {
+                    { "cash", team.Cash },
+                    { "divisionId", team.DivisionId },
+                    { "name", team.Name },
+                    { "stadiumCapacity", team.StadiumCapacity },
+                    { "yearFormed", team.YearFormed },
+                    { "gameDetailsId", team.GameDetailsId }
+                });
         }
         public int Update(Team team)
         {
-            return Update(UPDATE, new { team.Id, team.Cash, team.Division, team.Name, team.StadiumCapacity, team.YearFormed });
+            return Update(UPDATE, new { team.Id, team.Cash, team.DivisionId, team.Name, team.StadiumCapacity, team.YearFormed });
         }
         public int Delete(int id)
         {

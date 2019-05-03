@@ -14,12 +14,12 @@ namespace Fms_Web_Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<GameDetails>> Get()
+        public ActionResult<IEnumerable<GameDetails>> GetAll()
         {
             return  _gameDetailsQuery.GetAll().ToList();
         }
 
-        // GET api/values/5
+        // GET api/GameDetails/5
         [HttpGet("{id}")]
         public ActionResult<GameDetails> Get(int id)
         {
@@ -41,7 +41,7 @@ namespace Fms_Web_Api.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public void Delete(int id)
         {
             _gameDetailsQuery.Delete(id);
