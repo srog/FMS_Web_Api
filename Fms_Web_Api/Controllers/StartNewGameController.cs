@@ -23,9 +23,9 @@ namespace Fms_Web_Api.Controllers
 
         // POST api/values
         [HttpPost]
-        public int Post([FromBody] string managerName)
+        public int Post()
         {
-            var newGame = new GameDetails {ManagerName = managerName};
+            var newGame = new GameDetails {ManagerName = "", TeamId=0, CurrentSeasonId=0, CurrentWeek=0};
 
             var gameId = _gameQuery.Add(newGame);
             if (gameId > 0)
