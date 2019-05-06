@@ -40,15 +40,18 @@ namespace Fms_Web_Api.Controllers
 
                 _teamQuery.CreateAllTeamsForGame(gameId);
                 var teamList = _teamQuery.GetByGame(gameId);
+                var index = 0;
 
                 foreach (var team in teamList)
                 {
+                    index++;
                     _teamSeasonQuery.Add(new TeamSeason
                         {
                             DivisionId = team.DivisionId,
                             SeasonId = seasonId,
                             TeamId = team.Id,
-                            GameDetailsId = gameId
+                            GameDetailsId = gameId,
+                            Position = index
                         });
                 }
 

@@ -5,19 +5,33 @@ namespace Fms_Web_Api.Data
 {
     public class TeamSeasonQuery : Query
     {
-        private const string GET_ALL_BY_GAME = "spGetTeamSeasonsByGame";
+        private const string GET_ALL = "spGetTeamSeasons";
         private const string GET = "spGetTeamSeasonById";
         private const string INSERT = "spInsertTeamSeason";
         private const string RECALCULATE = "spRecalculateTeamSeason";
         
 
-        public IEnumerable<Team> GetByGame(int gameDetailsId)
+        public IEnumerable<TeamSeason> GetByGame(int gameDetailsId)
         {
-            return GetAllById<Team>(GET_ALL_BY_GAME, "gameDetailsId", gameDetailsId);
+            return GetAllById<TeamSeason>(GET_ALL, "gameDetailsId", gameDetailsId);
         }
-        public Team Get(int id)
+
+        public IEnumerable<TeamSeason> GetByGameAndDivision(int gameDetailsId, int divisionId)
         {
-            return GetSingle<Team>(GET, id);
+            var param = new { gameDetailsId, divisionId };
+            return GetAll<TeamSeason>(GET_ALL, param);
+        }
+
+        public IEnumerable<TeamSeason> GetByGameSeasonAndDivision(int gameDetailsId, int divisionId, int seasonId)
+        {
+            var param = new { gameDetailsId, divisionId, seasonId };
+            return GetAll<TeamSeason>(GET_ALL, param);
+        }
+
+
+        public TeamSeason Get(int id)
+        {
+            return GetSingle<TeamSeason>(GET, id);
         }
         public int Add(TeamSeason teamSeason)
         {

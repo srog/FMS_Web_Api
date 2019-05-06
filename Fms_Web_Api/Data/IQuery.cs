@@ -5,6 +5,7 @@ namespace Fms_Web_Api.Data
     public interface IQuery
     {
         IEnumerable<T> GetAll<T>(string storedProcedureName);
+        IEnumerable<T> GetAll<T>(string storedProcedureName, object param);
         IEnumerable<T> GetAllById<T>(string storedProcedureName, string parameterName, int idValue);
         T GetSingle<T>(string storedProcedureName, int id);
         T GetSingleById<T>(string storedProcedureName, string parameterName, int idValue);
