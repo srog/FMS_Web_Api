@@ -13,14 +13,14 @@ namespace Fms_Web_Api.Controllers
         private readonly PlayerAttributeQuery _PlayerAttributeQuery = new PlayerAttributeQuery();
 
         // GET api/attribute/5
-        [HttpGet]
+        [HttpGet("{id}")]
         public ActionResult<PlayerAttribute> Get(int id)
         {
             return _PlayerAttributeQuery.Get(id);
         }
 
         // GET api/values/5
-        [HttpGet("{playerId}")]
+        [HttpGet]
         public ActionResult<IEnumerable<PlayerAttribute>> GetByPlayer(int playerId)
         {
             return _PlayerAttributeQuery.GetByPlayer(playerId).ToList();

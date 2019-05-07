@@ -17,10 +17,8 @@ namespace Fms_Web_Api.Data
 
         public PlayerAttribute Get(int id)
         {
-            return GetSingleById<PlayerAttribute>(GET, "playerId", id);
+            return GetSingle<PlayerAttribute>(GET, id);
         }
-
-
 
         public int Add(PlayerAttribute playerAttribute)
         {
