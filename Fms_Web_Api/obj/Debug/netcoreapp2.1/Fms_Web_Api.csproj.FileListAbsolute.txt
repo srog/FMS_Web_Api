@@ -25,4 +25,3 @@ D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_We
 D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.RazorTargetAssemblyInfo.cache
 D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.dll
 D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.pdb
-D:\Projects\Projects\FMS3\FMS_Web_Api\Fms_Web_Api\obj\Debug\netcoreapp2.1\Fms_Web_Api.csprojAssemblyReference.cache
