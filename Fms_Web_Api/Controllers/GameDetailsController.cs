@@ -12,7 +12,7 @@ namespace Fms_Web_Api.Controllers
     {
         private readonly GameDetailsQuery _gameDetailsQuery = new GameDetailsQuery();
 
-        // GET api/values
+        // GET api/gamedetails
         [HttpGet]
         public ActionResult<IEnumerable<GameDetails>> GetAll()
         {

@@ -10,10 +10,10 @@ namespace Fms_Web_Api.Data
         private const string INSERT = "spInsertNews";
  
 
-        public IEnumerable<News> GetLatest(int seasonId, int week)
+        public IEnumerable<News> GetLatest(int gameDetailsId)
         {
-            var param = new { seasonId, week };
-            return GetAll<News>(GET_ALL, param);
+            var param = new { gameDetailsId };
+            return GetLatest<News>(GET_ALL, param);
         }
 
         public IEnumerable<News> GetBySeasonAndDivision(int divisionId, int seasonId)

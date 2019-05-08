@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Fms_Web_Api.Data;
 using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
