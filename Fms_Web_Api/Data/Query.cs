@@ -26,6 +26,11 @@ namespace Fms_Web_Api.Data
             return _dataAccessor.Query<T>(storedProcedure, param);
         }
 
+        public IEnumerable<T> GetLatest<T>(string storedProcedure, object param)
+        {
+            return _dataAccessor.Query<T>(storedProcedure, param);
+        }
+
         public IEnumerable<T> GetAllById<T>(string storedProcedure, string parameterName, int idValue)
         {
             var param = new DynamicParameters();

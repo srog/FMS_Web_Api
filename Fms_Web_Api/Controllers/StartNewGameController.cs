@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Fms_Web_Api.Data;
+﻿using Fms_Web_Api.Data;
 using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,21 +39,8 @@ namespace Fms_Web_Api.Controllers
 
                 _teamQuery.CreateAllTeamsForGame(gameId);
                 var teamList = _teamQuery.GetByGame(gameId);
-                var index = 0;
 
-                foreach (var team in teamList)
-                {
-                    index++;
-                    _teamSeasonQuery.Add(new TeamSeason
-                        {
-                            DivisionId = team.DivisionId,
-                            SeasonId = seasonId,
-                            TeamId = team.Id,
-                            GameDetailsId = gameId,
-                            Position = index
-                        });
-                }
-
+                _teamSeasonQuery.CreateTeamSeasons(teamList, seasonId, gameId);
                 _playerCreator.CreateAllPlayersForGame(teamList);
             }
 

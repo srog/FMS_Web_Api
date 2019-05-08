@@ -35,10 +35,10 @@ namespace Fms_Web_Api.Controllers
         }
 
 
-        [HttpGet("{seasonId}")]
-        public ActionResult<IEnumerable<News>> GetLatest(int seasonId, int week)
+        [HttpGet("{gameDetailsId}")]
+        public ActionResult<IEnumerable<News>> GetLatest(int gameDetailsId)
         {
-            return _newsQuery.GetLatest(seasonId, week).ToList();
+            return _newsQuery.GetLatest(gameDetailsId).ToList();
         }
 
         // POST api/player

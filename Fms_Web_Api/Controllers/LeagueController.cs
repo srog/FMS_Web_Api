@@ -26,5 +26,13 @@ namespace Fms_Web_Api.Controllers
             return _teamSeasonQuery.GetByGameSeasonAndDivision(gameDetailsId, divisionId, seasonId).ToList();
         }
 
+        // POST api/league?gameDetailsId=1&oldSeasonId=1&newSeasonId=2
+        [HttpPost]
+        public ActionResult<int> EndOfSeasonUpdate(int gameDetailsId, int oldSeasonId, int newSeasonId)
+        {
+            return _teamSeasonQuery.CreateTeamSeasons(gameDetailsId, oldSeasonId, newSeasonId);
+
+        }
+
     }
 }
