@@ -1,6 +1,7 @@
 ﻿using Fms_Web_Api.Data;
 using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Fms_Web_Api.Controllers
 {
@@ -8,11 +9,19 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class StartNewGameController : ControllerBase
     {
+        private IConfiguration Configuration { get; }
+
         private readonly TeamQuery _teamQuery = new TeamQuery();
         private readonly GameDetailsQuery _gameQuery = new GameDetailsQuery();
-        private readonly PlayerCreator _playerCreator = new PlayerCreator();
+        private readonly IPlayerCreator _playerCreator = new PlayerCreator();
         private readonly SeasonQuery _seasonQuery = new SeasonQuery();
         private readonly TeamSeasonQuery _teamSeasonQuery = new TeamSeasonQuery();
+
+        public StartNewGameController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
 
         // Create game
         // Create first season
@@ -31,7 +40,7 @@ namespace Fms_Web_Api.Controllers
             {
                 newGame.Id = gameId;
 
-                var initialSeason = new Season {GameDetailsId = newGame.Id, StartYear = 2019, Completed = false};
+                var initialSeason = new Season {GameDetailsId = newGame.Id, StartYear = Configuration.GetValue<int>("GameStartYear"), Completed = false};
                 var seasonId = _seasonQuery.Add(initialSeason);
 
                 newGame.CurrentSeasonId = seasonId;

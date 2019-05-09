@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fms_Web_Api.Enums;
 using Fms_Web_Api.Models;
@@ -9,12 +8,10 @@ namespace Fms_Web_Api.Data
 {
     public interface IPlayerCreator
     {
-        void CreateAllPlayers();
-        void CreatePlayer(int teamId, int position);
-
+        void CreateAllPlayersForGame(IEnumerable<Team> teamList);
     }
     
-    public class PlayerCreator 
+    public class PlayerCreator : IPlayerCreator
     {
         private static PlayerQuery _playerQuery;
         private static TeamQuery _teamQuery;
@@ -29,8 +26,24 @@ namespace Fms_Web_Api.Data
             _playerStatsQuery = new PlayerStatsQuery();
         }
 
+        public void CreateAllPlayersForGame(IEnumerable<Team> teamList)
+        {
+            var gameDetailsId = teamList.First().GameDetailsId;
+
+            foreach (var team in teamList)
+            {
+                2.TimesWithIndex((i) => CreatePlayer(team.Id, 1, gameDetailsId));
+                5.TimesWithIndex((i) => CreatePlayer(team.Id, 2, gameDetailsId));
+                5.TimesWithIndex((i) => CreatePlayer(team.Id, 3, gameDetailsId));
+                5.TimesWithIndex((i) => CreatePlayer(team.Id, 4, gameDetailsId));
+            }
+
+            // add transfer pool players
+            25.TimesWithIndex((i) => CreatePlayer(0, Utilities.Utilities.GetRandomNumber(1, 4), gameDetailsId));
+        }
+
         // change to decorator pattern !
-        public void CreatePlayer(int teamId, int position, int gameDetailsId)
+        private void CreatePlayer(int teamId, int position, int gameDetailsId)
         {
             // create basic player info
             var player = new Player
@@ -164,23 +177,6 @@ namespace Fms_Web_Api.Data
                     AttributeId = attributeId.GetHashCode(),
                     AttributeValue = value
                 };
-        }
-
-        public void CreateAllPlayersForGame(IEnumerable<Team> teamList)
-        {
-            var gameDetailsId = teamList.First().GameDetailsId;
-
-            foreach (var team in teamList)
-            {
-                2.TimesWithIndex((i) => CreatePlayer(team.Id, 1, gameDetailsId));
-                5.TimesWithIndex((i) => CreatePlayer(team.Id, 2, gameDetailsId));
-                5.TimesWithIndex((i) => CreatePlayer(team.Id, 3, gameDetailsId));
-                5.TimesWithIndex((i) => CreatePlayer(team.Id, 4, gameDetailsId));
-            }
-
-            // add transfer pool players
-            25.TimesWithIndex((i) => CreatePlayer(0, Utilities.Utilities.GetRandomNumber(1, 4), gameDetailsId));
-        }
-    }
-    
+        }       
+    }    
 }

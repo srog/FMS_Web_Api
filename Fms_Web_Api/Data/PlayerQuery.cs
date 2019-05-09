@@ -18,10 +18,6 @@ namespace Fms_Web_Api.Data
         private const string RETIRE_PLAYER = "spRetirePlayer";
         private const string ADVANCE_ALL_PLAYER_AGES = "spAdvanceAllPlayerAges";
 
-        public void CreateAll()
-        {
-
-        }
         public IEnumerable<Player> GetAll()
         {
             return GetAll<Player>(GET_ALL);
