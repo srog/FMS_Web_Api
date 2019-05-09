@@ -30,6 +30,10 @@ namespace Fms_Web_Api.Data
         {
             return GetAllById<Player>(GET_ALL_FOR_TEAM, "teamId", teamId);
         }
+        public IEnumerable<Player> GetByGame(int gameDetailsId)
+        {
+            return GetAllById<Player>(GET_ALL, "gameDetailsId", gameDetailsId);
+        }
 
         public IEnumerable<Player> GetAllFreeAgents(int gamedetailsId)
         {

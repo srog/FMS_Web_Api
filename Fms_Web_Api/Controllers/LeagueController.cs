@@ -28,9 +28,9 @@ namespace Fms_Web_Api.Controllers
 
         // POST api/league?gameDetailsId=1&oldSeasonId=1&newSeasonId=2
         [HttpPost]
-        public ActionResult<int> EndOfSeasonUpdate(int gameDetailsId, int oldSeasonId, int newSeasonId)
+        public ActionResult<int> EndOfSeasonUpdate([FromBody] EndOfSeasonData endOfSeasonData)
         {
-            return _teamSeasonQuery.CreateTeamSeasons(gameDetailsId, oldSeasonId, newSeasonId);
+            return _teamSeasonQuery.CreateTeamSeasons(endOfSeasonData.GameDetailsId, endOfSeasonData.OldSeasonId, endOfSeasonData.NewSeasonId);
 
         }
 

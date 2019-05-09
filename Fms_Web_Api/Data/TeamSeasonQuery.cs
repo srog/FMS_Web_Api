@@ -46,7 +46,8 @@ namespace Fms_Web_Api.Data
                     {"divisionId", teamSeason.DivisionId},
                     {"gameDetailsId", teamSeason.GameDetailsId},
                     {"seasonId", teamSeason.SeasonId},
-                    {"teamId", teamSeason.TeamId}
+                    {"teamId", teamSeason.TeamId},
+                    {"position", teamSeason.Position}
                 });
 
         }
@@ -62,6 +63,9 @@ namespace Fms_Web_Api.Data
             foreach (var team in teamList)
             {
                 index++;
+                if (index > 12)
+                    index = 1;
+
                 Add(new TeamSeason
                     {
                         DivisionId = team.DivisionId,
@@ -77,23 +81,47 @@ namespace Fms_Web_Api.Data
         // Does promotion / relegation
         public int CreateTeamSeasons(int gameDetailsId, int oldSeasonId, int newSeasonId)
         {
+            var newsQuery = new NewsQuery();
             var currentTeamSeasons = GetByGameAndSeason(gameDetailsId, oldSeasonId);
 
             foreach (var teamSeason in currentTeamSeasons)
             {
+                var newPosition = teamSeason.Position;
+
                 //Recalculate(teamSeason.Id); ??
                 var newDivision = teamSeason.DivisionId;
                 if ((teamSeason.Position < 3)
                     && (teamSeason.DivisionId > 1))
                 {
-                    // Add news item for promotion
                     newDivision--;
+                    newPosition = 10 + newPosition;
+
+                    // Add news item for promotion
+                    newsQuery.Add(new News
+                    {
+                        GameDetailsId = gameDetailsId,
+                        TeamId = teamSeason.TeamId,
+                        SeasonId = oldSeasonId,
+                        Week = 23,
+                        DivisionId = teamSeason.DivisionId,
+                        NewsText = teamSeason.TeamName + " promoted to division " + newDivision
+                    });
                 }
                 if ((teamSeason.Position > 10)
                     && (teamSeason.DivisionId < 4))
                 {
-                    // add news item for relegation
                     newDivision++;
+                    newPosition = newPosition - 10;
+                    // add news item for relegation
+                    newsQuery.Add(new News
+                    {
+                        GameDetailsId = gameDetailsId,
+                        TeamId = teamSeason.TeamId,
+                        SeasonId = oldSeasonId,
+                        Week = 23,
+                        DivisionId = teamSeason.DivisionId,
+                        NewsText = teamSeason.TeamName + " relegated to division " + newDivision
+                    });
                 }
 
                 var newTeamSeason = new TeamSeason
@@ -108,7 +136,8 @@ namespace Fms_Web_Api.Data
                         Lost = 0,
                         GoalsFor = 0,
                         GoalsAgainst = 0,
-                        Points = 0
+                        Points = 0,
+                        Position = newPosition
                     };
                 Add(newTeamSeason);
             }

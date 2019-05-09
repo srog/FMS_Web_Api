@@ -1,4 +1,7 @@
-﻿namespace Fms_Web_Api.Models
+﻿using Fms_Web_Api.Data;
+using Fms_Web_Api.TemplateData;
+
+namespace Fms_Web_Api.Models
 {
     public class TeamSeason
     {
@@ -15,5 +18,7 @@
         public int GoalsFor { get; set; }
         public int GoalsAgainst { get; set; }
         public int Position { get; set; }
+
+        public string TeamName => new TeamQuery().Get(TeamId).Name;
     }
 }

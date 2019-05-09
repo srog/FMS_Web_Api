@@ -22,6 +22,12 @@ namespace Fms_Web_Api.Data
             return GetAll<News>(GET_ALL, param);
         }
 
+        public IEnumerable<News> GetTeamNews(int teamId)
+        {
+            var param = new { teamId };
+            return GetAll<News>(GET_ALL, param);
+        }
+
         public IEnumerable<News> GetAllForSeason(int seasonId)
         {
             return GetAllById<News>(GET_ALL, "seasonId", seasonId);

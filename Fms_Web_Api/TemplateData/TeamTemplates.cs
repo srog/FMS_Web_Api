@@ -19,7 +19,7 @@ namespace Fms_Web_Api.TemplateData
                 "Bournemouth",
                 "Newcastle Utd",
                 "Southampton",
-                "Chelsea",
+                "Charlton Athletic",
                 "Leeds Utd",
                 "Notts Forest",
                 "Norwich City",

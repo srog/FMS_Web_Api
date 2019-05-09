@@ -12,10 +12,16 @@ namespace Fms_Web_Api.Controllers
     {
         private readonly PlayerQuery _PlayerQuery = new PlayerQuery();
 
-        [HttpGet]
-        public ActionResult<IEnumerable<Player>> GetPlayersForTeam(int teamId)
+        [HttpGet("{teamId}/{gameDetailsId}")]
+        public ActionResult<IEnumerable<Player>> GetPlayersForTeam(int teamId, int gameDetailsId)
         {
             return _PlayerQuery.GetAllByTeam(teamId).ToList();
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<Player>> GetPlayersForGame(int gameDetailsId)
+        {
+            return _PlayerQuery.GetByGame(gameDetailsId).ToList();
         }
 
         // GET api/player/5

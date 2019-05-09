@@ -34,6 +34,13 @@ namespace Fms_Web_Api.Controllers
             return _newsQuery.GetBySeasonAndDivision(divisionId, seasonId).ToList();
         }
 
+        // GET api/player/5
+        [HttpGet("{gameDetailsId}/{teamId}")]
+        public ActionResult<IEnumerable<News>> GetTeamNews(int gameDetailsId, int teamId)
+        {
+            return _newsQuery.GetTeamNews(teamId).ToList();
+        }
+
 
         [HttpGet("{gameDetailsId}")]
         public ActionResult<IEnumerable<News>> GetLatest(int gameDetailsId)
