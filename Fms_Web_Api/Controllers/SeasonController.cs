@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using Fms_Web_Api.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,8 +10,12 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class SeasonController : Controller
     {
-        private readonly SeasonQuery _seasonQuery = new SeasonQuery();
-        private readonly GameDetailsQuery _gameQuery = new GameDetailsQuery();
+        private ISeasonQuery _seasonQuery { get; }
+
+        public SeasonController(ISeasonQuery seasonQuery)
+        {
+            _seasonQuery = seasonQuery;
+        }
 
         // GET api/season?id=5
         [HttpGet]
@@ -21,21 +26,11 @@ namespace Fms_Web_Api.Controllers
 
         // GET api/season/5
         [HttpGet("{gameDetailsId}")]
-        public ActionResult<Season> GetCurrentSeasonForGame(int gameDetailsId)
+        public ActionResult<IEnumerable<Season>> GetAllForGame(int gameDetailsId)
         {
-            var game = _gameQuery.Get(gameDetailsId);
-
-            return _seasonQuery.GetByGame(gameDetailsId).ToList().Where(s => s.Id == game.CurrentSeasonId).FirstOrDefault();
+            return _seasonQuery.GetByGame(gameDetailsId).ToList();
         }
-
-        // GET api/season/5
-        //[HttpGet]
-        //public ActionResult<IEnumerable<Season>> GetAllSeasonsForGame(int gameDetailsId)
-        //{
-        //    return _seasonQuery.GetByGame(gameDetailsId).ToList();
-        //}
-
-
+        
         // POST api/values
         [HttpPost]
         public int Post([FromBody] Season season)

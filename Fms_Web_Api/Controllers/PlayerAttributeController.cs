@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Fms_Web_Api.Data;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,34 +10,39 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class PlayerAttributeController : ControllerBase
     {
-        private readonly PlayerAttributeQuery _PlayerAttributeQuery = new PlayerAttributeQuery();
+        private IPlayerAttributeQuery _playerAttributeQuery { get; }
 
-        // GET api/attribute/5
+        public PlayerAttributeController(IPlayerAttributeQuery playerAttributeQuery)
+        {
+            _playerAttributeQuery = playerAttributeQuery;
+        }
+
+        // GET api/playerattribute?id=5
         [HttpGet("{id}")]
         public ActionResult<PlayerAttribute> Get(int id)
         {
-            return _PlayerAttributeQuery.Get(id);
+            return _playerAttributeQuery.Get(id);
         }
 
-        // GET api/values/5
+        // GET api/playerattribute?playerid=4
         [HttpGet]
         public ActionResult<IEnumerable<PlayerAttribute>> GetByPlayer(int playerId)
         {
-            return _PlayerAttributeQuery.GetByPlayer(playerId).ToList();
+            return _playerAttributeQuery.GetByPlayer(playerId).ToList();
         }
 
         // POST api/values
         [HttpPost]
         public int Post([FromBody] PlayerAttribute playerAttribute)
         {
-            return _PlayerAttributeQuery.Add(playerAttribute);
+            return _playerAttributeQuery.Add(playerAttribute);
         }
 
         // PUT api/values/5
         [HttpPut]
         public int Put([FromBody] PlayerAttribute playerAttribute)
         {
-            return _PlayerAttributeQuery.Update(playerAttribute);
+            return _playerAttributeQuery.Update(playerAttribute);
         }
     }
 }

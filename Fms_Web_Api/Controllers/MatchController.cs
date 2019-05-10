@@ -43,6 +43,13 @@ namespace Fms_Web_Api.Controllers
             return _matchQuery.GetAll(new Match { GameDetailsId = gameDetailsId, SeasonId = seasonId, DivisionId = divisionId }).ToList();
         }
 
+        //// GET api/match/5/2/3/9
+        [HttpGet("{gameDetailsId}/{seasonId}/{divisionId}/{week}")]
+        public ActionResult<IEnumerable<Match>> GetAllWithWeek(int gameDetailsId, int seasonId, int divisionId, int week)
+        {
+            return _matchQuery.GetAll(new Match { GameDetailsId = gameDetailsId, SeasonId = seasonId, DivisionId = divisionId, Week = week }).ToList();
+        }
+
         [HttpPost]
         public int Add([FromBody] Match match)
         {

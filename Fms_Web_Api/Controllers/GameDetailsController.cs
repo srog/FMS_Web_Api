@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using Fms_Web_Api.Data;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +10,12 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class GameDetailsController : ControllerBase
     {
-        private readonly GameDetailsQuery _gameDetailsQuery = new GameDetailsQuery();
+        private IGameDetailsQuery _gameDetailsQuery { get; }
+
+        public GameDetailsController(IGameDetailsQuery gameDetailsQuery)
+        {
+            _gameDetailsQuery = gameDetailsQuery;
+        }
 
         // GET api/gamedetails
         [HttpGet]
@@ -30,7 +35,7 @@ namespace Fms_Web_Api.Controllers
         [HttpPost]
         public int Post([FromBody] GameDetails gameDetails)
         {
-            return _gameDetailsQuery.Add(gameDetails);
+            return _gameDetailsQuery.Insert(gameDetails);
         }
 
         // PUT api/values/5

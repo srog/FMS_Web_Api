@@ -1,38 +1,29 @@
 ﻿using System.Collections.Generic;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public class NewsQuery : Query
+    public class NewsQuery : Query, INewsQuery
     {
         private const string GET_ALL = "spGetNews";
         private const string GET = "spGetNewsById";
         private const string INSERT = "spInsertNews";
- 
 
-        public IEnumerable<News> GetLatest(int gameDetailsId)
+        public IEnumerable<News> GetAll(News news)
         {
-            var param = new { gameDetailsId };
-            return GetLatest<News>(GET_ALL, param);
-        }
-
-        public IEnumerable<News> GetBySeasonAndDivision(int divisionId, int seasonId)
-        {
-            var param = new { divisionId, seasonId };
+            var param = new
+                {
+                    news.GameDetailsId,
+                    news.SeasonId,
+                    news.DivisionId,
+                    news.Week,
+                    news.TeamId,
+                    news.PlayerId
+                };
             return GetAll<News>(GET_ALL, param);
         }
-
-        public IEnumerable<News> GetTeamNews(int teamId)
-        {
-            var param = new { teamId };
-            return GetAll<News>(GET_ALL, param);
-        }
-
-        public IEnumerable<News> GetAllForSeason(int seasonId)
-        {
-            return GetAllById<News>(GET_ALL, "seasonId", seasonId);
-        }
-
+        
         public News Get(int id)
         {
             return GetSingle<News>(GET, id);
@@ -50,6 +41,10 @@ namespace Fms_Web_Api.Data
                     { "newsText", news.NewsText }
                 });
         }
-     
+
+        public void Delete(int gameDetailsId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

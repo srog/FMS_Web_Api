@@ -1,4 +1,4 @@
-﻿using Fms_Web_Api.Data;
+﻿using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,16 +10,26 @@ namespace Fms_Web_Api.Controllers
     public class StartNewGameController : ControllerBase
     {
         private IConfiguration Configuration { get; }
-
-        private readonly TeamQuery _teamQuery = new TeamQuery();
-        private readonly GameDetailsQuery _gameQuery = new GameDetailsQuery();
-        private readonly IPlayerCreator _playerCreator = new PlayerCreator();
-        private readonly SeasonQuery _seasonQuery = new SeasonQuery();
-        private readonly TeamSeasonQuery _teamSeasonQuery = new TeamSeasonQuery();
-
-        public StartNewGameController(IConfiguration configuration)
+        private ITeamQuery _teamQuery { get;  }
+        private IGameDetailsQuery _gameDetailsQuery { get;  }
+        private IPlayerCreator _playerCreator { get; }
+        private ISeasonQuery _seasonQuery { get; }
+        private ITeamSeasonQuery _teamSeasonQuery { get; }
+        
+        public StartNewGameController(
+            IConfiguration configuration,
+            ITeamQuery teamQuery,
+            IGameDetailsQuery gameDetailsQuery,
+            IPlayerCreator playerCreator,
+            ISeasonQuery seasonQuery,
+            ITeamSeasonQuery teamSeasonQuery)
         {
             Configuration = configuration;
+            _teamSeasonQuery = teamSeasonQuery;
+            _teamQuery = teamQuery;
+            _gameDetailsQuery = gameDetailsQuery;
+            _playerCreator = playerCreator;
+            _seasonQuery = seasonQuery;
         }
 
 
@@ -35,7 +45,7 @@ namespace Fms_Web_Api.Controllers
         {
             var newGame = new GameDetails {ManagerName = "", TeamId=0, CurrentSeasonId=0, CurrentWeek=0};
 
-            var gameId = _gameQuery.Add(newGame);
+            var gameId = _gameDetailsQuery.Insert(newGame);
             if (gameId > 0)
             {
                 newGame.Id = gameId;
@@ -44,12 +54,12 @@ namespace Fms_Web_Api.Controllers
                 var seasonId = _seasonQuery.Add(initialSeason);
 
                 newGame.CurrentSeasonId = seasonId;
-                _gameQuery.Update(newGame);
+                _gameDetailsQuery.Update(newGame);
 
                 _teamQuery.CreateAllTeamsForGame(gameId);
                 var teamList = _teamQuery.GetByGame(gameId);
 
-                _teamSeasonQuery.CreateTeamSeasons(teamList, seasonId, gameId);
+                _teamSeasonQuery.CreateForNewGame(teamList, seasonId, gameId);
                 _playerCreator.CreateAllPlayersForGame(teamList);
             }
 
@@ -61,7 +71,7 @@ namespace Fms_Web_Api.Controllers
         [HttpPut]
         public void Put([FromBody] GameDetails gameDetails)
         {
-            _gameQuery.Update(gameDetails);
+            _gameDetailsQuery.Update(gameDetails);
         }
 
     }

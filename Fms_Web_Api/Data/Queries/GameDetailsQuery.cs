@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public class GameDetailsQuery : Query
+    public class GameDetailsQuery : Query, IGameDetailsQuery
     {
         private const string GET_ALL = "spGetAllGameDetails";
         private const string GET = "spGetGameDetailsById";
@@ -19,7 +20,7 @@ namespace Fms_Web_Api.Data
         {
             return GetSingle<GameDetails>(GET, id);
         }
-        public int Add(GameDetails gameDetails)
+        public int Insert(GameDetails gameDetails)
         {
             return Add(INSERT, new Dictionary<string, object>
                 {
