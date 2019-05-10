@@ -49,12 +49,14 @@ namespace Fms_Web_Api
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc(routes =>
-                {
-                    routes
-                        .MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
-                    //.MapRoute(name: "api", template: "api/{controller}/{gameDetailsId?}/{seasonId?}/{divisionId?}/{week?}");
-                });
+            app.UseMvc();
+
+            //app.UseMvc(routes =>
+            //    {
+            //        routes
+            //            .MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
+            //        //.MapRoute(name: "api", template: "api/{controller}/{gameDetailsId?}/{seasonId?}/{divisionId?}/{week?}");
+            //    });
         }
     
     }

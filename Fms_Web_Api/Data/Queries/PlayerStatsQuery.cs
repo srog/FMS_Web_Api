@@ -12,7 +12,7 @@ namespace Fms_Web_Api.Data.Queries
 
         public PlayerStats Get(int playerId)
         {
-            return GetSingleById<PlayerStats>(GET, "playerId", playerId);
+            return GetSingleById<PlayerStats>(GET, "id", playerId);
         }
 
         public int Add(PlayerStats playerStats)

@@ -25,7 +25,7 @@ namespace Fms_Web_Api.Controllers
         //}
 
         // GET api/news?teamid=51
-        [HttpGet("{teamId})")]
+        [HttpGet]
         public ActionResult<IEnumerable<News>> GetForTeam(int teamId)
         {
             return _newsQuery.GetAll(new News { TeamId = teamId }).ToList();

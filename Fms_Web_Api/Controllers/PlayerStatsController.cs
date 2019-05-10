@@ -16,10 +16,10 @@ namespace Fms_Web_Api.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{playerId}")]
-        public ActionResult<PlayerStats> GetStatsForPlayer(int playerId)
+        [HttpGet("{id}")]
+        public ActionResult<PlayerStats> GetStatsForPlayer(int id)
         {
-            return _playerStatsQuery.Get(playerId);
+            return _playerStatsQuery.Get(id);
         }
 
         // POST api/values

@@ -17,18 +17,18 @@ namespace Fms_Web_Api.Controllers
             _gameDetailsQuery = gameDetailsQuery;
         }
 
-        // GET api/gamedetails
-        [HttpGet]
-        public ActionResult<IEnumerable<GameDetails>> GetAll()
-        {
-            return  _gameDetailsQuery.GetAll().ToList();
-        }
-
         // GET api/GameDetails/5
         [HttpGet("{id}")]
         public ActionResult<GameDetails> Get(int id)
         {
             return _gameDetailsQuery.Get(id);
+        }
+
+        // GET api/gamedetails
+        [HttpGet]
+        public ActionResult<IEnumerable<GameDetails>> GetAll()
+        {
+            return  _gameDetailsQuery.GetAll().ToList();
         }
 
         // POST api/values

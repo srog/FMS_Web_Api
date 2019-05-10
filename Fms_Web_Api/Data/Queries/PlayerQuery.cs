@@ -6,7 +6,7 @@ namespace Fms_Web_Api.Data.Queries
 {
     public class PlayerQuery : Query, IPlayerQuery
     {
-        private const string GET_ALL = "spGetPlayers";
+        private const string GET_ALL = "spGetAllPlayers";
         private const string GET = "spGetPlayerById";
         private const string INSERT = "spInsertPlayer";
         private const string UPDATE = "spUpdatePlayer";
