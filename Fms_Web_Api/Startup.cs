@@ -24,6 +24,16 @@ namespace Fms_Web_Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<FmsDbContext>();
             services.AddTransient<IMatchQuery, MatchQuery>();
+            services.AddTransient<IGameDetailsQuery, GameDetailsQuery>();
+            services.AddTransient<INewsQuery, NewsQuery>();
+            services.AddTransient<IPlayerQuery, PlayerQuery>();
+            services.AddTransient<IPlayerAttributeQuery, PlayerAttributeQuery>();
+            services.AddTransient<IPlayerStatsQuery, PlayerStatsQuery>();
+            services.AddTransient<ISeasonQuery, SeasonQuery>();
+            services.AddTransient<ITeamQuery, TeamQuery>();
+            services.AddTransient<ITeamSeasonQuery, TeamSeasonQuery>();
+            services.AddTransient<IPlayerCreator, PlayerCreator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,11 +50,11 @@ namespace Fms_Web_Api
 
             app.UseHttpsRedirection();
             app.UseMvc(routes =>
-            {
-                routes
-                    .MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}")
-                    .MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
-            });
+                {
+                    routes
+                        .MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
+                    //.MapRoute(name: "api", template: "api/{controller}/{gameDetailsId?}/{seasonId?}/{divisionId?}/{week?}");
+                });
         }
     
     }

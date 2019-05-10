@@ -1,8 +1,8 @@
-﻿using Fms_Web_Api.Data;
-using Fms_Web_Api.Models;
+﻿using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Fms_Web_Api.Data.Interfaces;
 
 namespace Fms_Web_Api.Controllers
 {
@@ -10,7 +10,12 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class TeamController : ControllerBase
     {
-        private readonly TeamQuery _teamQuery = new TeamQuery();
+        private ITeamQuery _teamQuery { get; }
+
+        public TeamController(ITeamQuery teamQuery)
+        {
+            _teamQuery = teamQuery;
+        }
 
         // GET api/team?id=5
         [HttpGet]

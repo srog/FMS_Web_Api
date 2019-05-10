@@ -1,8 +1,8 @@
-﻿using Fms_Web_Api.Data;
-using Fms_Web_Api.Models;
+﻿using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Fms_Web_Api.Data.Interfaces;
 
 namespace Fms_Web_Api.Controllers
 {
@@ -10,39 +10,46 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private readonly PlayerQuery _PlayerQuery = new PlayerQuery();
+        private IPlayerQuery _playerQuery { get; }
 
-        [HttpGet("{teamId}/{gameDetailsId}")]
-        public ActionResult<IEnumerable<Player>> GetPlayersForTeam(int teamId, int gameDetailsId)
+        public PlayerController(IPlayerQuery playerQuery)
         {
-            return _PlayerQuery.GetAllByTeam(teamId).ToList();
-        }
-
-        [HttpGet]
-        public ActionResult<IEnumerable<Player>> GetPlayersForGame(int gameDetailsId)
-        {
-            return _PlayerQuery.GetByGame(gameDetailsId).ToList();
+            _playerQuery = playerQuery;
         }
 
         // GET api/player/5
-        [HttpGet("{id}")]
+        [HttpGet("{gameDetailsId}")]
+        public ActionResult<IEnumerable<Player>> GetAll(int gameDetailsId)
+        {
+            return _playerQuery.GetAll(new Player { GameDetailsId = gameDetailsId }).ToList();
+        }
+
+        // GET api/player/1/23
+        [HttpGet("{gameDetailsId}/{teamId}")]
+        public ActionResult<IEnumerable<Player>> GetTeamSquad(int gameDetailsId, int teamId)
+        {
+            return _playerQuery.GetAll(new Player { GameDetailsId = gameDetailsId, TeamId = teamId }).ToList();
+        }
+
+        // GET api/player?id=5
+        [HttpGet]
         public ActionResult<Player> Get(int id)
         {
-            return _PlayerQuery.Get(id);
+            return _playerQuery.Get(id);
         }
 
         // POST api/player
         [HttpPost]
         public int Post([FromBody] Player Player)
         {
-            return _PlayerQuery.Add(Player);
+            return _playerQuery.Add(Player);
         }
 
         // PUT api/player
         [HttpPut]
         public int Put([FromBody] Player Player)
         {
-            return _PlayerQuery.Update(Player);
+            return _playerQuery.Update(Player);
         }
 
         // Experimental

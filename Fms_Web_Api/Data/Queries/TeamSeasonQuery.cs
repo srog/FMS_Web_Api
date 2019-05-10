@@ -1,15 +1,23 @@
 ﻿using Fms_Web_Api.Models;
 using System.Collections.Generic;
+using Fms_Web_Api.Data.Interfaces;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public class TeamSeasonQuery : Query
+    public class TeamSeasonQuery : Query, ITeamSeasonQuery
     {
         private const string GET_ALL = "spGetTeamSeasons";
         private const string GET = "spGetTeamSeasonById";
         private const string INSERT = "spInsertTeamSeason";
         private const string RECALCULATE = "spRecalculateTeamSeason";
-        
+
+        private INewsQuery _newsQuery { get; }
+        private ITeamQuery _teamQuery { get; }
+        public TeamSeasonQuery(INewsQuery newsQuery, ITeamQuery teamQuery)
+        {
+            _newsQuery = newsQuery;
+            _teamQuery = teamQuery;
+        }
 
         public IEnumerable<TeamSeason> GetByGame(int gameDetailsId)
         {
@@ -57,7 +65,7 @@ namespace Fms_Web_Api.Data
         }
 
         // create for a new game
-        public void CreateTeamSeasons(IEnumerable<Team> teamList, int seasonId, int gameDetailsId)
+        public void CreateForNewGame(IEnumerable<Team> teamList, int seasonId, int gameDetailsId)
         {
             var index = 0;
             foreach (var team in teamList)
@@ -79,9 +87,8 @@ namespace Fms_Web_Api.Data
 
         // Create for a new season
         // Does promotion / relegation
-        public int CreateTeamSeasons(int gameDetailsId, int oldSeasonId, int newSeasonId)
+        public int CreateForNewSeason(int gameDetailsId, int oldSeasonId, int newSeasonId)
         {
-            var newsQuery = new NewsQuery();
             var currentTeamSeasons = GetByGameAndSeason(gameDetailsId, oldSeasonId);
 
             foreach (var teamSeason in currentTeamSeasons)
@@ -97,14 +104,14 @@ namespace Fms_Web_Api.Data
                     newPosition = 10 + newPosition;
 
                     // Add news item for promotion
-                    newsQuery.Add(new News
+                    _newsQuery.Add(new News
                     {
                         GameDetailsId = gameDetailsId,
                         TeamId = teamSeason.TeamId,
                         SeasonId = oldSeasonId,
                         Week = 23,
                         DivisionId = teamSeason.DivisionId,
-                        NewsText = teamSeason.TeamName + " promoted to division " + newDivision
+                        NewsText = _teamQuery.Get(teamSeason.TeamId) + " promoted to division " + newDivision
                     });
                 }
                 if ((teamSeason.Position > 10)
@@ -113,14 +120,14 @@ namespace Fms_Web_Api.Data
                     newDivision++;
                     newPosition = newPosition - 10;
                     // add news item for relegation
-                    newsQuery.Add(new News
+                    _newsQuery.Add(new News
                     {
                         GameDetailsId = gameDetailsId,
                         TeamId = teamSeason.TeamId,
                         SeasonId = oldSeasonId,
                         Week = 23,
                         DivisionId = teamSeason.DivisionId,
-                        NewsText = teamSeason.TeamName + " relegated to division " + newDivision
+                        NewsText = _teamQuery.Get(teamSeason.TeamId) + " relegated to division " + newDivision
                     });
                 }
 
@@ -144,7 +151,5 @@ namespace Fms_Web_Api.Data
 
             return 0;
         }
-
-
     }
 }

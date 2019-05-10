@@ -1,21 +1,16 @@
 ﻿using System.Collections.Generic;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public class SeasonQuery : Query
+    public class SeasonQuery : Query, ISeasonQuery
     {
-        private const string GET_ALL = "spGetAllSeasons";
         private const string GET_ALL_BY_GAME = "spGetSeasonsByGameId";
         private const string GET = "spGetSeasonById";
         private const string INSERT = "spInsertSeason";
         private const string UPDATE = "spUpdateSeason";
         private const string DELETE = "spDeleteSeason";
-
-        public IEnumerable<Season> GetAll()
-        {
-            return GetAll<Season>(GET_ALL);
-        }
 
         public IEnumerable<Season> GetByGame(int gameDetailsId)
         {

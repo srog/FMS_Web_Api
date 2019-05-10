@@ -1,4 +1,5 @@
-﻿using Fms_Web_Api.Models;
+﻿using System;
+using Fms_Web_Api.Models;
 using System.Collections.Generic;
 using Fms_Web_Api.Data.Interfaces;
 
@@ -51,6 +52,12 @@ namespace Fms_Web_Api.Data.Queries
             return Update(UPDATE, new {
                 match.HomeTeamScore, match.AwayTeamScore, match.Completed
             });
+        }
+
+        public void Delete(int gameDetailsId)
+        {
+            throw new NotImplementedException();
+            //Delete(DELETE, gameDetailsId);
         }
 
     }

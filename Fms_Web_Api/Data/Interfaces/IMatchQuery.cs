@@ -9,5 +9,6 @@ namespace Fms_Web_Api.Data.Interfaces
         Match Get(int id);
         int Insert(Match match);
         int Update(Match match);
+        void Delete(int gameDetailsId);
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public class PlayerQuery : Query
+    public class PlayerQuery : Query, IPlayerQuery
     {
-        private const string GET_ALL = "spGetAllPlayers";
-        private const string GET_ALL_FREE_AGENTS = "spGetAllFreeAgents";
-        private const string GET_ALL_FREE_TRANSFERS = "spGetAllFreeTransfers";
-        private const string GET_ALL_FOR_TEAM = "spGetPlayersByTeamId";
+        private const string GET_ALL = "spGetPlayers";
         private const string GET = "spGetPlayerById";
         private const string INSERT = "spInsertPlayer";
         private const string UPDATE = "spUpdatePlayer";
@@ -18,29 +16,15 @@ namespace Fms_Web_Api.Data
         private const string RETIRE_PLAYER = "spRetirePlayer";
         private const string ADVANCE_ALL_PLAYER_AGES = "spAdvanceAllPlayerAges";
 
-        public IEnumerable<Player> GetAll()
+        public IEnumerable<Player> GetAll(Player player)
         {
-            return GetAll<Player>(GET_ALL);
+            var param = new
+                {
+                    player.GameDetailsId,
+                    player.TeamId
+                };
+            return GetAll<Player>(GET_ALL, param);
         }
-        public IEnumerable<Player> GetAllByTeam(int teamId)
-        {
-            return GetAllById<Player>(GET_ALL_FOR_TEAM, "teamId", teamId);
-        }
-        public IEnumerable<Player> GetByGame(int gameDetailsId)
-        {
-            return GetAllById<Player>(GET_ALL, "gameDetailsId", gameDetailsId);
-        }
-
-        public IEnumerable<Player> GetAllFreeAgents(int gamedetailsId)
-        {
-            return GetAllById<Player>(GET_ALL_FREE_AGENTS, "gameDetailsId", gamedetailsId);
-        }
-
-        public IEnumerable<Player> GetAllFreeTransfers(int gamedetailsId)
-        {
-            return GetAllById<Player>(GET_ALL_FREE_TRANSFERS, "gameDetailsId", gamedetailsId);
-        }
-
 
         public Player Get(int id)
         {
@@ -75,6 +59,11 @@ namespace Fms_Web_Api.Data
         public int AdvanceAllAges(int gameDetailsId)
         {
             return UpdateSingleColumn(ADVANCE_ALL_PLAYER_AGES, "gameDetailsId", gameDetailsId);
+        }
+
+        public void Delete(int gameDetailsId)
+        {
+            Delete(DELETE, gameDetailsId);
         }
     }
 

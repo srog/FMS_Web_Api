@@ -1,29 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Enums;
 using Fms_Web_Api.Models;
 using Fms_Web_Api.Utilities;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public interface IPlayerCreator
-    {
-        void CreateAllPlayersForGame(IEnumerable<Team> teamList);
-    }
-    
     public class PlayerCreator : IPlayerCreator
     {
-        private static PlayerQuery _playerQuery;
-        private static TeamQuery _teamQuery;
-        private static PlayerAttributeQuery _playerAttributeQuery;
-        private static PlayerStatsQuery _playerStatsQuery;
+        private IPlayerQuery _playerQuery { get; }
+        private ITeamQuery _teamQuery { get; }
+        private IPlayerAttributeQuery _playerAttributeQuery { get; }
+        private IPlayerStatsQuery _playerStatsQuery { get; }
 
-        public PlayerCreator()
+        public PlayerCreator(
+            IPlayerQuery playerQuery, 
+            ITeamQuery teamQuery, 
+            IPlayerAttributeQuery playerAttributeQuery, 
+            IPlayerStatsQuery playerStatsQuery)
         {
-            _playerQuery = new PlayerQuery();
-            _teamQuery = new TeamQuery();
-            _playerAttributeQuery = new PlayerAttributeQuery();
-            _playerStatsQuery = new PlayerStatsQuery();
+            _playerQuery = playerQuery;
+            _teamQuery = teamQuery;
+            _playerAttributeQuery = playerAttributeQuery;
+            _playerStatsQuery = playerStatsQuery;
         }
 
         public void CreateAllPlayersForGame(IEnumerable<Team> teamList)

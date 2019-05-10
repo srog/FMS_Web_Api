@@ -1,10 +1,11 @@
 ﻿using Fms_Web_Api.Models;
 using System.Collections.Generic;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.TemplateData;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public class TeamQuery : Query
+    public class TeamQuery : Query, ITeamQuery
     {
         private const string GET_ALL = "spGetAllTeams";
         private const string GET_ALL_BY_DIVISION = "spGetTeamsByDivision";
@@ -28,10 +29,6 @@ namespace Fms_Web_Api.Data
             return GetAll<Team>(GET_ALL);
         }
 
-        public IEnumerable<Team> GetByDivision(int divisionId)
-        {
-            return GetAllById<Team>(GET_ALL_BY_DIVISION, "divisionId", divisionId);
-        }
         public IEnumerable<Team> GetByGame(int gameDetailsId)
         {
             return GetAllById<Team>(GET_ALL_BY_GAME, "gameDetailsId", gameDetailsId);

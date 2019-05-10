@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
 
-namespace Fms_Web_Api.Data
+namespace Fms_Web_Api.Data.Queries
 {
-    public class PlayerAttributeQuery : Query
+    public class PlayerAttributeQuery : Query, IPlayerAttributeQuery
     {
         private const string GET = "spGetPlayerAttribute";
         private const string GET_FOR_PLAYER = "spGetPlayerAttributes";
@@ -36,6 +37,10 @@ namespace Fms_Web_Api.Data
             return Update(UPDATE, new { playerAttribute.Id, playerAttribute.AttributeValue });
         }
 
+        public void Delete(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
 
