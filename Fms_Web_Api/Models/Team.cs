@@ -9,5 +9,11 @@
         public int Cash { get; set; }
         public int StadiumCapacity { get; set; }
         public int GameDetailsId { get; set; }
+
+        public int TotalRating { get; set; }
+        public int TotalDefenseRating { get; set; }
+        public int TotalMidfieldRating { get; set; }
+        public int TotalAttackRating { get; set; }
+
     }
 }

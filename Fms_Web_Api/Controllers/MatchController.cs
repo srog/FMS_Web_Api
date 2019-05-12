@@ -11,10 +11,12 @@ namespace Fms_Web_Api.Controllers
     public class MatchController : Controller
     {
         private IMatchQuery _matchQuery { get; }
+        private ITeamSeasonQuery _teamSeasonQuery { get; }
 
-        public MatchController(IMatchQuery matchQuery)
+        public MatchController(IMatchQuery matchQuery, ITeamSeasonQuery teamSeasonQuery)
         {
             _matchQuery = matchQuery;
+            _teamSeasonQuery = teamSeasonQuery;
         }
 
         // GET api/match/5
@@ -60,6 +62,21 @@ namespace Fms_Web_Api.Controllers
         public int Update([FromBody] Match match)
         {
             return _matchQuery.Update(match);
+        }
+
+        [HttpPut("{id}")]
+        public int PlayMatch(int id)
+        {
+            var result = _matchQuery.PlayMatch(id);
+            var match = _matchQuery.Get(id);
+            var homeTeamSeason = _teamSeasonQuery.GetCurrentForTeam(match.HomeTeamId.Value);
+            result = _teamSeasonQuery.Recalculate(homeTeamSeason.Id);
+            var awayTeamSeason = _teamSeasonQuery.GetCurrentForTeam(match.AwayTeamId.Value);
+            result = _teamSeasonQuery.Recalculate(awayTeamSeason.Id);
+
+            _teamSeasonQuery.RecalculateDivisionPositions(match.SeasonId.Value, match.DivisionId.Value);
+
+            return result;
         }
     }
 }

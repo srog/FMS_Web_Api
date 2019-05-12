@@ -21,7 +21,9 @@ namespace Fms_Web_Api.Controllers
         [HttpGet("{gameDetailsId}/{seasonId}/{divisionId}")]
         public ActionResult<IEnumerable<TeamSeason>> GetByGameSeasonAndDivision(int gameDetailsId, int divisionId, int seasonId)
         {
-            return _teamSeasonQuery.GetByGameSeasonAndDivision(gameDetailsId, divisionId, seasonId).ToList();
+            return _teamSeasonQuery.GetByGameSeasonAndDivision(gameDetailsId, divisionId, seasonId)
+                .OrderBy(ts => ts.Position)
+                .ToList();
         }
 
         // POST api/league

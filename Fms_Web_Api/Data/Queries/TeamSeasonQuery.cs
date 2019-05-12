@@ -1,6 +1,7 @@
 ﻿using Fms_Web_Api.Models;
 using System.Collections.Generic;
 using Fms_Web_Api.Data.Interfaces;
+using System.Linq;
 
 namespace Fms_Web_Api.Data.Queries
 {
@@ -9,14 +10,18 @@ namespace Fms_Web_Api.Data.Queries
         private const string GET_ALL = "spGetTeamSeasons";
         private const string GET = "spGetTeamSeasonById";
         private const string INSERT = "spInsertTeamSeason";
+        private const string UPDATE = "spUpdateTeamSeason";
         private const string RECALCULATE = "spRecalculateTeamSeason";
+        private const string RECALCULATE_POSITIONS = "spRecalculateDivisionPositions";
 
         private INewsQuery _newsQuery { get; }
         private ITeamQuery _teamQuery { get; }
-        public TeamSeasonQuery(INewsQuery newsQuery, ITeamQuery teamQuery)
+        private IMatchQuery _matchQuery { get; }
+        public TeamSeasonQuery(INewsQuery newsQuery, ITeamQuery teamQuery, IMatchQuery matchQuery)
         {
             _newsQuery = newsQuery;
             _teamQuery = teamQuery;
+            _matchQuery = matchQuery;
         }
 
         public IEnumerable<TeamSeason> GetByGame(int gameDetailsId)
@@ -42,11 +47,29 @@ namespace Fms_Web_Api.Data.Queries
             return GetAll<TeamSeason>(GET_ALL, param);
         }
 
+        public TeamSeason GetCurrentForTeam(int teamId)
+        {
+            var param = new { teamId };
+            return GetSingleById<TeamSeason>(GET_ALL, "teamId", teamId);
+
+        }
+
 
         public TeamSeason Get(int id)
         {
             return GetSingle<TeamSeason>(GET, id);
         }
+        private void AddTeamSeasonsAndFixtures(IEnumerable<TeamSeason> teamSeasons)
+        {
+            foreach(var teamSeason in teamSeasons)
+            {
+                Add(teamSeason);
+            }
+
+            _matchQuery.GenerateFixtures(teamSeasons);
+
+        }
+
         public int Add(TeamSeason teamSeason)
         {
             return Add(INSERT, new Dictionary<string, object>
@@ -59,22 +82,42 @@ namespace Fms_Web_Api.Data.Queries
                 });
 
         }
+
+        public int Update(TeamSeason teamSeason)
+        {
+            return Update(UPDATE, new Dictionary<string, object>
+                {
+                    {"Id", teamSeason.Id},
+                    {"position", teamSeason.Position}
+                });
+
+        }
+
         public int Recalculate(int id)
         {
-            return Update(RECALCULATE, new { id });
+            var result = Update(RECALCULATE, new { id });
+
+            return result;
+        }
+
+        public void RecalculateDivisionPositions(int seasonId, int divisionId)
+        {
+            Update(RECALCULATE_POSITIONS, new { seasonId, divisionId });
         }
 
         // create for a new game
         public void CreateForNewGame(IEnumerable<Team> teamList, int seasonId, int gameDetailsId)
         {
             var index = 0;
+            var teamSeasons = new List<TeamSeason>();
+
             foreach (var team in teamList)
             {
                 index++;
                 if (index > 12)
                     index = 1;
 
-                Add(new TeamSeason
+                teamSeasons.Add(new TeamSeason
                     {
                         DivisionId = team.DivisionId,
                         SeasonId = seasonId,
@@ -83,6 +126,7 @@ namespace Fms_Web_Api.Data.Queries
                         Position = index
                     });
             }
+            AddTeamSeasonsAndFixtures(teamSeasons);
         }
 
         // Create for a new season
@@ -90,6 +134,8 @@ namespace Fms_Web_Api.Data.Queries
         public int CreateForNewSeason(int gameDetailsId, int oldSeasonId, int newSeasonId)
         {
             var currentTeamSeasons = GetByGameAndSeason(gameDetailsId, oldSeasonId);
+
+            var teamSeasons = new List<TeamSeason>();
 
             foreach (var teamSeason in currentTeamSeasons)
             {
@@ -111,7 +157,7 @@ namespace Fms_Web_Api.Data.Queries
                         SeasonId = oldSeasonId,
                         Week = 23,
                         DivisionId = teamSeason.DivisionId,
-                        NewsText = _teamQuery.Get(teamSeason.TeamId) + " promoted to division " + newDivision
+                        NewsText = _teamQuery.Get(teamSeason.TeamId).Name + " promoted to division " + newDivision
                     });
                 }
                 if ((teamSeason.Position > 10)
@@ -127,11 +173,11 @@ namespace Fms_Web_Api.Data.Queries
                         SeasonId = oldSeasonId,
                         Week = 23,
                         DivisionId = teamSeason.DivisionId,
-                        NewsText = _teamQuery.Get(teamSeason.TeamId) + " relegated to division " + newDivision
+                        NewsText = _teamQuery.Get(teamSeason.TeamId).Name + " relegated to division " + newDivision
                     });
                 }
 
-                var newTeamSeason = new TeamSeason
+                teamSeasons.Add(new TeamSeason
                     {
                         DivisionId = newDivision,
                         GameDetailsId = gameDetailsId,
@@ -145,9 +191,10 @@ namespace Fms_Web_Api.Data.Queries
                         GoalsAgainst = 0,
                         Points = 0,
                         Position = newPosition
-                    };
-                Add(newTeamSeason);
+                    });
             }
+
+            AddTeamSeasonsAndFixtures(teamSeasons);
 
             return 0;
         }

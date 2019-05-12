@@ -12,6 +12,6 @@ namespace Fms_Web_Api.Models
         public int? AwayTeamId { get; set; }
         public int HomeTeamScore { get; set; }
         public int AwayTeamScore { get; set; }
-        public bool Completed { get; set; }
+        public bool? Completed { get; set; }
     }
 }

@@ -10,18 +10,15 @@ namespace Fms_Web_Api.Data.Queries
     public class PlayerCreator : IPlayerCreator
     {
         private IPlayerQuery _playerQuery { get; }
-        private ITeamQuery _teamQuery { get; }
         private IPlayerAttributeQuery _playerAttributeQuery { get; }
         private IPlayerStatsQuery _playerStatsQuery { get; }
 
         public PlayerCreator(
             IPlayerQuery playerQuery, 
-            ITeamQuery teamQuery, 
             IPlayerAttributeQuery playerAttributeQuery, 
             IPlayerStatsQuery playerStatsQuery)
         {
             _playerQuery = playerQuery;
-            _teamQuery = teamQuery;
             _playerAttributeQuery = playerAttributeQuery;
             _playerStatsQuery = playerStatsQuery;
         }

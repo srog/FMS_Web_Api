@@ -10,5 +10,8 @@ namespace Fms_Web_Api.Data.Interfaces
         int Insert(Match match);
         int Update(Match match);
         void Delete(int gameDetailsId);
+
+        void GenerateFixtures(IEnumerable<TeamSeason> teamSeasons);
+        int PlayMatch(int id);
     }
 }
