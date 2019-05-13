@@ -1,7 +1,6 @@
-﻿using Fms_Web_Api.Data.Interfaces;
-using Fms_Web_Api.Models;
+﻿using Fms_Web_Api.Models;
+using Fms_Web_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace Fms_Web_Api.Controllers
 {
@@ -9,27 +8,26 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class StartNewGameController : ControllerBase
     {
-        private IConfiguration Configuration { get; }
-        private ITeamQuery _teamQuery { get;  }
-        private IGameDetailsQuery _gameDetailsQuery { get;  }
-        private IPlayerCreator _playerCreator { get; }
-        private ISeasonQuery _seasonQuery { get; }
-        private ITeamSeasonQuery _teamSeasonQuery { get; }
+        private ITeamService _teamService { get;  }
+        private IGameDetailsService _gameDetailsService { get;  }
+        private IPlayerCreatorService _playerCreatorService { get; }
+        private ISeasonService _seasonService { get; }
+        private ITeamSeasonService _teamSeasonService { get; }
         
         public StartNewGameController(
-            IConfiguration configuration,
-            ITeamQuery teamQuery,
-            IGameDetailsQuery gameDetailsQuery,
-            IPlayerCreator playerCreator,
-            ISeasonQuery seasonQuery,
-            ITeamSeasonQuery teamSeasonQuery)
+           
+            ITeamService teamService,
+            IGameDetailsService gameDetailsService,
+            IPlayerCreatorService playerCreatorService,
+            ISeasonService seasonService,
+            ITeamSeasonService teamSeasonService)
         {
-            Configuration = configuration;
-            _teamSeasonQuery = teamSeasonQuery;
-            _teamQuery = teamQuery;
-            _gameDetailsQuery = gameDetailsQuery;
-            _playerCreator = playerCreator;
-            _seasonQuery = seasonQuery;
+            
+            _teamSeasonService = teamSeasonService;
+            _teamService = teamService;
+            _gameDetailsService = gameDetailsService;
+            _playerCreatorService = playerCreatorService;
+            _seasonService = seasonService;
         }
 
 
@@ -45,22 +43,21 @@ namespace Fms_Web_Api.Controllers
         {
             var newGame = new GameDetails {ManagerName = "", TeamId=0, CurrentSeasonId=0, CurrentWeek=0};
 
-            var gameId = _gameDetailsQuery.Insert(newGame);
+            var gameId = _gameDetailsService.Insert(newGame);
             if (gameId > 0)
             {
                 newGame.Id = gameId;
 
-                var initialSeason = new Season {GameDetailsId = newGame.Id, StartYear = Configuration.GetValue<int>("GameStartYear"), Completed = false};
-                var seasonId = _seasonQuery.Add(initialSeason);
+                var seasonId = _seasonService.AddNew(newGame.Id);
 
                 newGame.CurrentSeasonId = seasonId;
-                _gameDetailsQuery.Update(newGame);
+                _gameDetailsService.Update(newGame);
 
-                _teamQuery.CreateAllTeamsForGame(gameId);
-                var teamList = _teamQuery.GetByGame(gameId);
+                _teamService.CreateAllTeamsForGame(gameId);
+                var teamList = _teamService.GetTeamsForGame(gameId);
 
-                _teamSeasonQuery.CreateForNewGame(teamList, seasonId, gameId);
-                _playerCreator.CreateAllPlayersForGame(teamList);
+                _teamSeasonService.CreateForNewGame(teamList, seasonId, gameId);
+                _playerCreatorService.CreateAllPlayersForGame(teamList);
             }
 
             return gameId;
@@ -71,7 +68,7 @@ namespace Fms_Web_Api.Controllers
         [HttpPut]
         public void Put([FromBody] GameDetails gameDetails)
         {
-            _gameDetailsQuery.Update(gameDetails);
+            _gameDetailsService.Update(gameDetails);
         }
 
     }

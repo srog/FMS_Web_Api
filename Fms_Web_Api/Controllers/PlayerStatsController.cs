@@ -1,5 +1,5 @@
-﻿using Fms_Web_Api.Data.Interfaces;
-using Fms_Web_Api.Models;
+﻿using Fms_Web_Api.Models;
+using Fms_Web_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fms_Web_Api.Controllers
@@ -8,32 +8,32 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class PlayerStatsController : ControllerBase
     {
-        private IPlayerStatsQuery _playerStatsQuery { get; }
+        private IPlayerStatsService _playerStatsService { get; }
 
-        public PlayerStatsController(IPlayerStatsQuery playerStatsQuery)
+        public PlayerStatsController(IPlayerStatsService playerStatsService)
         {
-            _playerStatsQuery = playerStatsQuery;
+            _playerStatsService = playerStatsService;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<PlayerStats> GetStatsForPlayer(int id)
         {
-            return _playerStatsQuery.Get(id);
+            return _playerStatsService.Get(id);
         }
 
         // POST api/values
         [HttpPost]
         public int Post([FromBody] PlayerStats PlayerStats)
         {
-            return _playerStatsQuery.Add(PlayerStats);
+            return _playerStatsService.Add(PlayerStats);
         }
 
         // PUT api/values/5
         [HttpPut]
         public int Put([FromBody] PlayerStats PlayerStats)
         {
-            return _playerStatsQuery.Update(PlayerStats);
+            return _playerStatsService.Update(PlayerStats);
         }
     }
 }

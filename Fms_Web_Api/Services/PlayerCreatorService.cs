@@ -3,17 +3,18 @@ using System.Linq;
 using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Enums;
 using Fms_Web_Api.Models;
+using Fms_Web_Api.Services.Interfaces;
 using Fms_Web_Api.Utilities;
 
-namespace Fms_Web_Api.Data.Queries
+namespace Fms_Web_Api.Services
 {
-    public class PlayerCreator : IPlayerCreator
+    public class PlayerCreatorService : IPlayerCreatorService
     {
         private IPlayerQuery _playerQuery { get; }
         private IPlayerAttributeQuery _playerAttributeQuery { get; }
         private IPlayerStatsQuery _playerStatsQuery { get; }
 
-        public PlayerCreator(
+        public PlayerCreatorService(
             IPlayerQuery playerQuery, 
             IPlayerAttributeQuery playerAttributeQuery, 
             IPlayerStatsQuery playerStatsQuery)

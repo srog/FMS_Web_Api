@@ -13,7 +13,7 @@ namespace Fms_Web_Api.Data.Interfaces
         Player Get(int id);
         int Add(Player player);
         int Update(Player player);
-        int Retire(int id);
+        int RetirePlayer(int id);
         int AdvanceAllAges(int gameDetailsId);
         void Delete(int gameDetailsId);
     }

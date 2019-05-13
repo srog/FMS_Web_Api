@@ -1,8 +1,7 @@
 ﻿using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using Fms_Web_Api.Data.Interfaces;
+using Fms_Web_Api.Services.Interfaces;
 
 namespace Fms_Web_Api.Controllers
 {
@@ -10,46 +9,46 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class TeamController : ControllerBase
     {
-        private ITeamQuery _teamQuery { get; }
+        private readonly ITeamService _teamService;
 
-        public TeamController(ITeamQuery teamQuery)
+        public TeamController(ITeamService teamService)
         {
-            _teamQuery = teamQuery;
+            _teamService = teamService;
         }
 
         // GET api/team?id=5
         [HttpGet]
         public ActionResult<Team> Get(int id)
         {
-            return _teamQuery.Get(id);
+            return _teamService.Get(id);
         }
 
         // GET api/team/12
         [HttpGet("{gameDetailsid}")]
         public ActionResult<IEnumerable<Team>> GetTeamsForGame(int gameDetailsId)
         {
-            return _teamQuery.GetByGame(gameDetailsId).ToList();
+            return _teamService.GetTeamsForGame(gameDetailsId);
         }
 
         // POST api/team
         [HttpPost]
         public int Post([FromBody] Team team)
         {
-            return _teamQuery.Add(team);
+            return _teamService.Add(team);
         }
 
         // PUT api/team/
         [HttpPut]
         public int Put([FromBody] Team team)
         {
-            return _teamQuery.Update(team);
+            return _teamService.Update(team);
         }
 
-        // DELETE api/team/5
-        [HttpDelete]
-        public void Delete(int id)
-        {
-            _teamQuery.Delete(id);
-        }
+        //// DELETE api/team/5
+        //[HttpDelete]
+        //public void Delete(int id)
+        //{
+        //    _teamService.Delete(id);
+        //}
     }
 }

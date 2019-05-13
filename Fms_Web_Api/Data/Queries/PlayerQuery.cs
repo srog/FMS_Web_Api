@@ -48,10 +48,21 @@ namespace Fms_Web_Api.Data.Queries
       }
         public int Update(Player player)
         {
-            return Update(UPDATE, new { player.Id, player.Age, player.InjuredWeeks, player.Position, player.Name, player.Rating, player.Retired, player.TeamId, player.Value });
+            return Update(UPDATE, new
+                {
+                    player.Id,
+                    player.Age,
+                    player.InjuredWeeks,
+                    player.Position,
+                    player.Name,
+                    player.Rating,
+                    player.Retired,
+                    player.TeamId,
+                    player.Value
+                });
         }
   
-        public int Retire(int id)
+        public int RetirePlayer(int id)
         {
             return UpdateSingleColumn(RETIRE_PLAYER, "id", id);
         }

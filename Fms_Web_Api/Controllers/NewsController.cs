@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
+using Fms_Web_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fms_Web_Api.Controllers
@@ -10,11 +9,11 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class NewsController : Controller
     {
-        private INewsQuery _newsQuery { get; }
+        private INewsService _newsService { get; }
 
-        public NewsController(INewsQuery newsQuery)
+        public NewsController(INewsService newsService)
         {
-            _newsQuery = newsQuery;
+            _newsService = newsService;
         }
 
         //// GET api/news?id=5
@@ -28,40 +27,40 @@ namespace Fms_Web_Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<News>> GetForTeam(int teamId)
         {
-            return _newsQuery.GetAll(new News { TeamId = teamId }).ToList();
+            return _newsService.GetAll(new News { TeamId = teamId });
         }
 
         // GET api/news/5
         [HttpGet("{gameDetailsId}")]
         public ActionResult<IEnumerable<News>> GetAll(int gameDetailsId)
         {
-            return _newsQuery.GetAll(new News { GameDetailsId = gameDetailsId }).ToList();
+            return _newsService.GetAll(new News { GameDetailsId = gameDetailsId });
         }
         // GET api/news/5/2
         [HttpGet("{gameDetailsId}/{seasonId}")]
         public ActionResult<IEnumerable<News>> GetAllWithSeason(int gameDetailsId, int seasonId)
         {
-            return _newsQuery.GetAll(new News { GameDetailsId = gameDetailsId, SeasonId = seasonId }).ToList();
+            return _newsService.GetAll(new News { GameDetailsId = gameDetailsId, SeasonId = seasonId });
         }
         // GET api/news/5/2/3
         [HttpGet("{gameDetailsId}/{seasonId}/{divisionId}")]
         public ActionResult<IEnumerable<News>> GetAllWithDivision(int gameDetailsId, int seasonId, int divisionId)
         {
-            return _newsQuery.GetAll(new News { GameDetailsId = gameDetailsId, SeasonId = seasonId, DivisionId = divisionId }).ToList();
+            return _newsService.GetAll(new News { GameDetailsId = gameDetailsId, SeasonId = seasonId, DivisionId = divisionId });
         }
 
         //// GET api/news/5/2/3/9
         [HttpGet("{gameDetailsId}/{seasonId}/{divisionId}/{week}")]
         public ActionResult<IEnumerable<News>> GetAllWithWeek(int gameDetailsId, int seasonId, int divisionId, int week)
         {
-            return _newsQuery.GetAll(new News { GameDetailsId = gameDetailsId, SeasonId = seasonId, DivisionId = divisionId, Week = week }).ToList();
+            return _newsService.GetAll(new News { GameDetailsId = gameDetailsId, SeasonId = seasonId, DivisionId = divisionId, Week = week });
         }
         
         // POST api/player
         [HttpPost]
         public int Post([FromBody] News news)
         {
-            return _newsQuery.Add(news);
+            return _newsService.Add(news);
         }
 
     }

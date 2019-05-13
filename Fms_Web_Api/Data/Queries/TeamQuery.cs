@@ -1,7 +1,6 @@
 ﻿using Fms_Web_Api.Models;
 using System.Collections.Generic;
 using Fms_Web_Api.Data.Interfaces;
-using Fms_Web_Api.TemplateData;
 
 namespace Fms_Web_Api.Data.Queries
 {
@@ -14,16 +13,7 @@ namespace Fms_Web_Api.Data.Queries
         private const string INSERT = "spInsertTeam";
         private const string UPDATE = "spUpdateTeam";
         private const string DELETE = "spDeleteTeam";
-
-
-        public void CreateAllTeamsForGame(int gameId)
-        {
-            foreach (var team in TeamTemplates.TeamsTemplate)
-            {
-                team.GameDetailsId = gameId;
-                Add(team);
-            }
-        }
+        
         public IEnumerable<Team> GetAll()
         {
             return GetAll<Team>(GET_ALL);

@@ -1,8 +1,7 @@
 ﻿using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using Fms_Web_Api.Data.Interfaces;
+using Fms_Web_Api.Services.Interfaces;
 
 namespace Fms_Web_Api.Controllers
 {
@@ -10,46 +9,46 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private IPlayerQuery _playerQuery { get; }
+        private IPlayerService _playerService { get; }
 
-        public PlayerController(IPlayerQuery playerQuery)
+        public PlayerController(IPlayerService playerService)
         {
-            _playerQuery = playerQuery;
+            _playerService = playerService;
         }
 
         // GET api/player/5
         [HttpGet("{gameDetailsId}")]
         public ActionResult<IEnumerable<Player>> GetAll(int gameDetailsId)
         {
-            return _playerQuery.GetAll(new Player { GameDetailsId = gameDetailsId }).ToList();
+            return _playerService.GetAllPlayersInGame(gameDetailsId);
         }
 
         // GET api/player/1/23
         [HttpGet("{gameDetailsId}/{teamId}")]
         public ActionResult<IEnumerable<Player>> GetTeamSquad(int gameDetailsId, int teamId)
         {
-            return _playerQuery.GetAll(new Player { GameDetailsId = gameDetailsId, TeamId = teamId }).ToList();
+            return _playerService.GetTeamSquad(teamId);
         }
 
         // GET api/player?id=5
         [HttpGet]
         public ActionResult<Player> Get(int id)
         {
-            return _playerQuery.Get(id);
+            return _playerService.Get(id);
         }
 
         // POST api/player
         [HttpPost]
         public int Post([FromBody] Player Player)
         {
-            return _playerQuery.Add(Player);
+            return _playerService.Add(Player);
         }
 
         // PUT api/player
         [HttpPut]
         public int Put([FromBody] Player Player)
         {
-            return _playerQuery.Update(Player);
+            return _playerService.Update(Player);
         }
 
         // Experimental

@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using Fms_Web_Api.Data.Interfaces;
+﻿using System.Collections.Generic;
 using Fms_Web_Api.Models;
+using Fms_Web_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fms_Web_Api.Controllers
@@ -10,46 +9,46 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class GameDetailsController : ControllerBase
     {
-        private IGameDetailsQuery _gameDetailsQuery { get; }
+        private IGameDetailsService _gameDetailsService { get; }
 
-        public GameDetailsController(IGameDetailsQuery gameDetailsQuery)
+        public GameDetailsController(IGameDetailsService gameDetailsService)
         {
-            _gameDetailsQuery = gameDetailsQuery;
+            _gameDetailsService = gameDetailsService;
         }
 
         // GET api/GameDetails/5
         [HttpGet("{id}")]
         public ActionResult<GameDetails> Get(int id)
         {
-            return _gameDetailsQuery.Get(id);
+            return _gameDetailsService.Get(id);
         }
 
         // GET api/gamedetails
         [HttpGet]
         public ActionResult<IEnumerable<GameDetails>> GetAll()
         {
-            return  _gameDetailsQuery.GetAll().ToList();
+            return _gameDetailsService.GetAll();
         }
 
         // POST api/values
         [HttpPost]
         public int Post([FromBody] GameDetails gameDetails)
         {
-            return _gameDetailsQuery.Insert(gameDetails);
+            return _gameDetailsService.Insert(gameDetails);
         }
 
         // PUT api/values/5
         [HttpPut]
         public int Put([FromBody] GameDetails gameDetails)
         {
-            return _gameDetailsQuery.Update(gameDetails);
+            return _gameDetailsService.Update(gameDetails);
         }
 
         // DELETE api/values/5
         [HttpDelete]
         public void Delete(int id)
         {
-            _gameDetailsQuery.Delete(id);
+            _gameDetailsService.Delete(id);
         }
     }
 }

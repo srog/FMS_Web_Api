@@ -1,5 +1,7 @@
 ﻿using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Data.Queries;
+using Fms_Web_Api.Services;
+using Fms_Web_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +26,7 @@ namespace Fms_Web_Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<FmsDbContext>();
             services.AddTransient<IMatchQuery, MatchQuery>();
+            services.AddTransient<IMatchGoalQuery, MatchGoalQuery>();
             services.AddTransient<IGameDetailsQuery, GameDetailsQuery>();
             services.AddTransient<INewsQuery, NewsQuery>();
             services.AddTransient<IPlayerQuery, PlayerQuery>();
@@ -32,7 +35,20 @@ namespace Fms_Web_Api
             services.AddTransient<ISeasonQuery, SeasonQuery>();
             services.AddTransient<ITeamQuery, TeamQuery>();
             services.AddTransient<ITeamSeasonQuery, TeamSeasonQuery>();
-            services.AddTransient<IPlayerCreator, PlayerCreator>();
+
+            services.AddTransient<IPlayerCreatorService, PlayerCreatorService>();
+            services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<IPlayerAttributeService, PlayerAttributeService>();
+            services.AddTransient<IPlayerStatsService, PlayerStatsService>();
+            services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<INewsService, NewsService>();
+            services.AddTransient<ITeamSeasonService, TeamSeasonService>();
+            services.AddTransient<IGameDetailsService, GameDetailsService>();
+            services.AddTransient<IFixtureGenerator, FixtureGenerator>();
+            services.AddTransient<ISeasonService, SeasonService>();
+            services.AddTransient<IMatchService, MatchService>();
+
+
 
         }
 

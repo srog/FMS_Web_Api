@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Fms_Web_Api.Models;
 
-namespace Fms_Web_Api.Data.Interfaces
+namespace Fms_Web_Api.Services.Interfaces
 {
-    public interface INewsQuery
+    public interface INewsService
     {
-        IEnumerable<News> GetAll(News news);
+        List<News> GetAll(News news);
         News Get(int id);
         int Add(News news);
         void Delete(int gameDetailsId);
