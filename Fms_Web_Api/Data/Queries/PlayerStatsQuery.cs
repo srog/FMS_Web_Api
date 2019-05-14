@@ -24,7 +24,7 @@ namespace Fms_Web_Api.Data.Queries
         }
         public int Update(PlayerStats playerStats)
         {
-            return Update(UPDATE, new { playerStats.Id, playerStats.Assists, playerStats.CleanSheets, playerStats.Games, playerStats.Goals, playerStats.PlayerId, playerStats.RedCards, playerStats.YellowCards });
+            return Update(UPDATE, new { playerStats.Assists, playerStats.CleanSheets, playerStats.Games, playerStats.Goals, playerStats.PlayerId, playerStats.RedCards, playerStats.YellowCards });
         }
 
         public void Delete(int id)

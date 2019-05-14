@@ -36,12 +36,13 @@ namespace Fms_Web_Api.Data.Queries
                     { "name", team.Name },
                     { "stadiumCapacity", team.StadiumCapacity },
                     { "yearFormed", team.YearFormed },
-                    { "gameDetailsId", team.GameDetailsId }
+                    { "gameDetailsId", team.GameDetailsId },
+                    { "formationId", team.FormationId }
                 });
         }
         public int Update(Team team)
         {
-            return Update(UPDATE, new { team.Id, team.Cash, team.DivisionId, team.Name, team.StadiumCapacity, team.YearFormed });
+            return Update(UPDATE, new { team.Id, team.Cash, team.DivisionId, team.Name, team.StadiumCapacity, team.YearFormed, team.FormationId });
         }
         public int Delete(int id)
         {

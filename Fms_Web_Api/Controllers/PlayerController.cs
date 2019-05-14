@@ -1,6 +1,7 @@
 ﻿using Fms_Web_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using Fms_Web_Api.Services.Interfaces;
 
 namespace Fms_Web_Api.Controllers
@@ -27,7 +28,12 @@ namespace Fms_Web_Api.Controllers
         [HttpGet("{gameDetailsId}/{teamId}")]
         public ActionResult<IEnumerable<Player>> GetTeamSquad(int gameDetailsId, int teamId)
         {
-            return _playerService.GetTeamSquad(teamId);
+            return _playerService
+                .GetTeamSquad(teamId)
+                .OrderByDescending(p => p.IsSelected)
+                .ThenBy(p => p.TeamSelection)
+                .ThenBy(p => p.InjuredWeeks)
+                .ToList();
         }
 
         // GET api/player?id=5
