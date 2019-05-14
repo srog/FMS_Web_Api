@@ -35,6 +35,7 @@ namespace Fms_Web_Api
             services.AddTransient<ISeasonQuery, SeasonQuery>();
             services.AddTransient<ITeamQuery, TeamQuery>();
             services.AddTransient<ITeamSeasonQuery, TeamSeasonQuery>();
+            services.AddTransient<IMatchGoalQuery, MatchGoalQuery>();
 
             services.AddTransient<IPlayerCreatorService, PlayerCreatorService>();
             services.AddTransient<IPlayerService, PlayerService>();
@@ -47,6 +48,7 @@ namespace Fms_Web_Api
             services.AddTransient<IFixtureGenerator, FixtureGenerator>();
             services.AddTransient<ISeasonService, SeasonService>();
             services.AddTransient<IMatchService, MatchService>();
+            services.AddTransient<IMatchGoalService, MatchGoalService>();
 
 
 

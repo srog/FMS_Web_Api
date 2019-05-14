@@ -18,7 +18,7 @@ namespace Fms_Web_Api.Controllers
         }
 
         // GET api/match/5
-        [HttpGet]
+        [HttpGet("{matchId}")]
         public ActionResult<IEnumerable<MatchGoal>> GetForMatch(int matchId)
         {
             return _matchGoalService.GetForMatch(matchId).ToList();
