@@ -5,11 +5,13 @@ using Fms_Web_Api.Enums;
 using Fms_Web_Api.Models;
 using Fms_Web_Api.Services.Interfaces;
 using Fms_Web_Api.Utilities;
+using Microsoft.Extensions.Configuration;
 
 namespace Fms_Web_Api.Services
 {
     public class PlayerCreatorService : IPlayerCreatorService
     {
+        private readonly IConfiguration _configuration;
         private IPlayerQuery _playerQuery { get; }
         private IPlayerAttributeQuery _playerAttributeQuery { get; }
         private IPlayerStatsQuery _playerStatsQuery { get; }
@@ -17,13 +19,16 @@ namespace Fms_Web_Api.Services
         public PlayerCreatorService(
             IPlayerQuery playerQuery, 
             IPlayerAttributeQuery playerAttributeQuery, 
-            IPlayerStatsQuery playerStatsQuery)
+            IPlayerStatsQuery playerStatsQuery,
+            IConfiguration configuration)
         {
+            _configuration = configuration;
             _playerQuery = playerQuery;
             _playerAttributeQuery = playerAttributeQuery;
             _playerStatsQuery = playerStatsQuery;
         }
 
+        // Primitive
         public void CreateAllPlayersForGame(IEnumerable<Team> teamList)
         {
             var gameDetailsId = teamList.First().GameDetailsId;
@@ -34,10 +39,92 @@ namespace Fms_Web_Api.Services
                 5.TimesWithIndex((i) => CreatePlayer(team.Id, 2, gameDetailsId));
                 5.TimesWithIndex((i) => CreatePlayer(team.Id, 3, gameDetailsId));
                 5.TimesWithIndex((i) => CreatePlayer(team.Id, 4, gameDetailsId));
+
+                RecalculateSquadValues(team);
+                SetInitialTeamSelection(team);
             }
 
             // add transfer pool players
             25.TimesWithIndex((i) => CreatePlayer(0, Utilities.Utilities.GetRandomNumber(1, 4), gameDetailsId));
+        }
+
+        private void RecalculateSquadValues(Team team)
+        {
+            
+        }
+
+        // Primitive
+        private void SetInitialTeamSelection(Team team)
+        {
+            var formations = _configuration.GetSection("FormationSection").Get<Formations>();
+            var teamFormation = formations.FormationList.First(f => f.Id == team.FormationId);
+
+            var allPlayers = _playerQuery.GetAll(new Player {TeamId = team.Id});
+            foreach (var player in allPlayers)
+            {
+                player.TeamSelection = 0;
+            }
+
+            // GK
+            var playerSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Goalkeeper);
+            if (playerSelected > 0)
+            {
+                allPlayers.First(p => p.Id == playerSelected).TeamSelection = 1;
+            }
+
+            // Def
+            for (var def = 1; def <= teamFormation.Defenders; def++)
+            {
+                var defenderSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Defender);
+                if (defenderSelected > 0)
+                {
+                    allPlayers.First(p => p.Id == defenderSelected).TeamSelection = 1 + def;
+                }
+            }
+
+            // Mid
+            for (var mid = 1; mid <= teamFormation.Midfielders; mid++)
+            {
+                var midSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Midfielder);
+                if (midSelected > 0)
+                {
+                    allPlayers.First(p => p.Id == midSelected).TeamSelection = 1 + teamFormation.Defenders + mid;
+                }
+            }
+
+            // Att
+            for (var att = 1; att <= teamFormation.Attackers; att++)
+            {
+                var attSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Striker);
+                if (attSelected > 0)
+                {
+                    allPlayers.First(p => p.Id == attSelected).TeamSelection = 1 + teamFormation.Defenders + teamFormation.Midfielders + att;
+                }
+            }
+
+            // If any positions haven't been filled....do something !
+
+            // Update with new selections
+            foreach (var player in allPlayers)
+            {
+                _playerQuery.Update(player);
+            }
+
+        }
+
+        private int GetNextPlayerForPosition(IEnumerable<Player> playerList, PositionEnum position)
+        {
+            var playerSelected = 0;
+            var playerSelectedRating = 0;
+            foreach (var p in playerList.Where(p => p.Position == position.GetHashCode() && p.InjuredWeeks == 0 && p.TeamSelection == 0))
+            {
+                if (p.Rating > playerSelectedRating)
+                {
+                    playerSelected = p.Id;
+                    playerSelectedRating = p.Rating;
+                }
+            }
+            return playerSelected;
         }
 
         // change to decorator pattern !

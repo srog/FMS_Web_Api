@@ -58,7 +58,8 @@ namespace Fms_Web_Api.Data.Queries
                     player.Rating,
                     player.Retired,
                     player.TeamId,
-                    player.Value
+                    player.Value,
+                    player.TeamSelection
                 });
         }
   

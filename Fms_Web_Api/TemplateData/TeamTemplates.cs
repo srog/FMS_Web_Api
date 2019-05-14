@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Fms_Web_Api.Models;
 
 namespace Fms_Web_Api.TemplateData
 {
@@ -55,62 +54,6 @@ namespace Fms_Web_Api.TemplateData
                 "Accrington Stanley",
                 "Stockport County",
                 "Tranmere Rovers"
-
-            };
-
-        public static List<Team> TeamsTemplate = new List<Team>
-            {
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[0], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[1], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[2], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[3], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[4], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[5], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[6], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[7], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[8], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[9], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[10], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 1, Cash = Utilities.Utilities.GetRandomNumber(250000, 100000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(20000, 80000), Name = TeamNames[11], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[12], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[13], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[14], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[15], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[16], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[17], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[18], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[19], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[20], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[21], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[22], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 2, Cash = Utilities.Utilities.GetRandomNumber(50000, 15000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(10000, 40000), Name = TeamNames[23], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[24], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[25], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[26], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[27], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[28], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[29], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[30], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[31], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[32], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[33], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[34], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 3, Cash = Utilities.Utilities.GetRandomNumber(25000, 2000000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(7500, 25000), Name = TeamNames[35], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[36], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[37], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[38], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[39], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[40], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[41], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[42], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[43], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[44], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[45], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[46], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
-                new Team {DivisionId = 4, Cash = Utilities.Utilities.GetRandomNumber(5000, 500000), StadiumCapacity = Utilities.Utilities.GetRandomNumber(2000, 8000), Name = TeamNames[47], YearFormed = Utilities.Utilities.GetRandomNumber(1880, 1960)},
 
             };
     }
