@@ -22,6 +22,7 @@ namespace Fms_Web_Api.Data.Queries
                 match.Week,
                 match.HomeTeamId,
                 match.AwayTeamId,
+                match.Attendance,
                 match.Completed
             };
             return GetAll<Match>(GET_ALL, param);
@@ -43,14 +44,15 @@ namespace Fms_Web_Api.Data.Queries
                 { "homeTeamId", match.HomeTeamId },
                 { "awayTeamId", match.AwayTeamId },
                 { "homeTeamScore", match.HomeTeamScore },
-                { "awayTeamScore", match.AwayTeamScore }
+                { "awayTeamScore", match.AwayTeamScore },
+                { "attendance", match.Attendance }
             });
         }
 
         public int Update(Match match)
         {
             return Update(UPDATE, new {
-                match.Id, match.HomeTeamScore, match.AwayTeamScore, match.Completed
+                match.Id, match.HomeTeamScore, match.AwayTeamScore, match.Attendance, match.Completed
             });
         }
 

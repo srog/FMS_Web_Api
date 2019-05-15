@@ -45,6 +45,11 @@ namespace Fms_Web_Api.Services
                 return null;
             }
 
+            // Set attendance
+            var maxAttendance = _teamService.Get(match.HomeTeamId.Value).StadiumCapacity;
+
+            match.Attendance = Utilities.Utilities.GetRandomNumber(maxAttendance / 3, maxAttendance);
+
             // Goals
             match.HomeTeamScore = Utilities.Utilities.GetRandomNumber(0, 5);
             match.AwayTeamScore = Utilities.Utilities.GetRandomNumber(0, 4);
