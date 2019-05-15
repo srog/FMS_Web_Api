@@ -32,6 +32,7 @@ namespace Fms_Web_Api.Controllers
                 .GetTeamSquad(teamId)
                 .OrderByDescending(p => p.IsSelected)
                 .ThenBy(p => p.TeamSelection)
+                .ThenBy(p => p.SuspendedWeeks)
                 .ThenBy(p => p.InjuredWeeks)
                 .ToList();
         }

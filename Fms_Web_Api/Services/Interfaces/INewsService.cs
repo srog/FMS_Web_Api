@@ -9,5 +9,10 @@ namespace Fms_Web_Api.Services.Interfaces
         News Get(int id);
         int Add(News news);
         void Delete(int gameDetailsId);
+
+        void CreateSuspendedNewsItem(PlayerNews news, bool redCard = false);
+        void CreateInjuredNewsItem(PlayerNews news);
+        void CreateProRelNewsItem(PromotionNews news, bool promoted = true);
+
     }
 }

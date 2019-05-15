@@ -7,7 +7,10 @@ namespace Fms_Web_Api.Services.Interfaces
     {
         List<Player> GetAllPlayersInGame(int gameDetailsId);
         List<Player> GetTeamSquad(int teamId);
+        List<Player> GetSelectedTeam(int teamId);
+        int GetRandomPlayerFromTeam(int teamId, bool includeKeeper = true, bool includeInjured = true, bool includeSuspended = true);
         Player Get(int id);
+        string GetPlayerName(int playerId);
         int Add(Player player);
         int Update(Player player);
         int Retire(int id);

@@ -11,4 +11,19 @@
         public int? Week { get; set; }
         public string NewsText { get; set; }
     }
+
+    public class PlayerNews
+    {
+        public News News { get; set; }
+        public string PlayerName { get; set; }
+        public string TeamName { get; set; }
+        public int Weeks { get; set; }
+    }
+
+    public class PromotionNews
+    {
+        public News News { get; set; }
+        public string TeamName { get; set; }
+        public int Division { get; set; }
+    }
 }

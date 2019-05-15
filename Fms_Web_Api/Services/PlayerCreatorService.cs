@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Enums;
 using Fms_Web_Api.Models;
 using Fms_Web_Api.Services.Interfaces;
@@ -12,20 +11,26 @@ namespace Fms_Web_Api.Services
     public class PlayerCreatorService : IPlayerCreatorService
     {
         private readonly IConfiguration _configuration;
-        private IPlayerQuery _playerQuery { get; }
-        private IPlayerAttributeQuery _playerAttributeQuery { get; }
-        private IPlayerStatsQuery _playerStatsQuery { get; }
+        private readonly IPlayerService _playerService;
+        private readonly ITeamService _teamService;
+        private readonly IPlayerAttributeService _playerAttributeService;
+        private readonly IPlayerStatsService _playerStatsService;
+        private readonly INewsService _newsService;
 
         public PlayerCreatorService(
-            IPlayerQuery playerQuery, 
-            IPlayerAttributeQuery playerAttributeQuery, 
-            IPlayerStatsQuery playerStatsQuery,
+            IPlayerService playerService, 
+            ITeamService teamService,
+            IPlayerAttributeService playerAttributeService, 
+            IPlayerStatsService playerStatsService,
+            INewsService newsService,
             IConfiguration configuration)
         {
             _configuration = configuration;
-            _playerQuery = playerQuery;
-            _playerAttributeQuery = playerAttributeQuery;
-            _playerStatsQuery = playerStatsQuery;
+            _playerService = playerService;
+            _teamService = teamService;
+            _newsService = newsService;
+            _playerAttributeService = playerAttributeService;
+            _playerStatsService = playerStatsService;
         }
 
         // Primitive
@@ -41,11 +46,47 @@ namespace Fms_Web_Api.Services
                 5.TimesWithIndex((i) => CreatePlayer(team.Id, 4, gameDetailsId));
 
                 RecalculateSquadValues(team);
-                SetInitialTeamSelection(team);
+                SetTeamSelection(team);
             }
+
+            SetInitialInjuries(teamList.ToList());
 
             // add transfer pool players
             25.TimesWithIndex((i) => CreatePlayer(0, Utilities.Utilities.GetRandomNumber(1, 4), gameDetailsId));
+        }
+
+        private void SetInitialInjuries(List<Team> teamList)
+        {
+            var numInjuries = Utilities.Utilities.GetRandomNumber(1, teamList.Count);
+            for (var index = 1; index <= numInjuries; index++)
+            {
+                var teamIndex = Utilities.Utilities.GetRandomNumber(1, teamList.Count);
+                var team = teamList[teamIndex - 1];
+                var player = _playerService.Get(_playerService.GetRandomPlayerFromTeam(team.Id));
+
+                player.InjuredWeeks += Utilities.Utilities.GetRandomNumber(1, 10); // Could extend an existing injury !
+                _playerService.Update(player);
+
+                // adjust team selection
+                if (player.IsSelected)
+                {
+                    SetTeamSelection(_teamService.Get(player.TeamId.Value));
+                }
+
+                // Add news item
+                var newsDescription = _playerService.GetPlayerName(player.Id) + "(" + _teamService.GetTeamName(team.Id)
+                                      + ") out injured for " + player.InjuredWeeks + " weeks";
+                _newsService.Add(new News
+                    {
+                        GameDetailsId = teamList[0].GameDetailsId,
+                        DivisionId = team.DivisionId,
+                        PlayerId = player.Id,
+                        SeasonId = 0,
+                        TeamId = team.Id,
+                        Week = 0,
+                        NewsText = newsDescription
+                    });
+            }
         }
 
         private void RecalculateSquadValues(Team team)
@@ -54,19 +95,19 @@ namespace Fms_Web_Api.Services
         }
 
         // Primitive
-        private void SetInitialTeamSelection(Team team)
+        private void SetTeamSelection(Team team)
         {
             var formations = _configuration.GetSection("FormationSection").Get<Formations>();
             var teamFormation = formations.FormationList.First(f => f.Id == team.FormationId);
 
-            var allPlayers = _playerQuery.GetAll(new Player {TeamId = team.Id});
+            var allPlayers = _playerService.GetTeamSquad(team.Id);
             foreach (var player in allPlayers)
             {
                 player.TeamSelection = 0;
             }
 
             // GK
-            var playerSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Goalkeeper);
+            var playerSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Goalkeeper);
             if (playerSelected > 0)
             {
                 allPlayers.First(p => p.Id == playerSelected).TeamSelection = 1;
@@ -75,7 +116,7 @@ namespace Fms_Web_Api.Services
             // Def
             for (var def = 1; def <= teamFormation.Defenders; def++)
             {
-                var defenderSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Defender);
+                var defenderSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Defender);
                 if (defenderSelected > 0)
                 {
                     allPlayers.First(p => p.Id == defenderSelected).TeamSelection = 1 + def;
@@ -85,7 +126,7 @@ namespace Fms_Web_Api.Services
             // Mid
             for (var mid = 1; mid <= teamFormation.Midfielders; mid++)
             {
-                var midSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Midfielder);
+                var midSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Midfielder);
                 if (midSelected > 0)
                 {
                     allPlayers.First(p => p.Id == midSelected).TeamSelection = 1 + teamFormation.Defenders + mid;
@@ -95,7 +136,7 @@ namespace Fms_Web_Api.Services
             // Att
             for (var att = 1; att <= teamFormation.Attackers; att++)
             {
-                var attSelected = GetNextPlayerForPosition(allPlayers, PositionEnum.Striker);
+                var attSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Striker);
                 if (attSelected > 0)
                 {
                     allPlayers.First(p => p.Id == attSelected).TeamSelection = 1 + teamFormation.Defenders + teamFormation.Midfielders + att;
@@ -107,16 +148,16 @@ namespace Fms_Web_Api.Services
             // Update with new selections
             foreach (var player in allPlayers)
             {
-                _playerQuery.Update(player);
+                _playerService.Update(player);
             }
 
         }
 
-        private int GetNextPlayerForPosition(IEnumerable<Player> playerList, PositionEnum position)
+        private int GetNextAvailablePlayerForPosition(IEnumerable<Player> playerList, PositionEnum position)
         {
             var playerSelected = 0;
             var playerSelectedRating = 0;
-            foreach (var p in playerList.Where(p => p.Position == position.GetHashCode() && p.InjuredWeeks == 0 && p.TeamSelection == 0))
+            foreach (var p in playerList.Where(p => p.Position == position.GetHashCode() && p.IsAvailable && p.TeamSelection == 0))
             {
                 if (p.Rating > playerSelectedRating)
                 {
@@ -139,26 +180,24 @@ namespace Fms_Web_Api.Services
                 Name = Utilities.Utilities.GetRandomName(),
                 GameDetailsId = gameDetailsId
             };
-            var playerId = _playerQuery.Add(player);
+            var playerId = _playerService.Add(player);
             player.Id = playerId;
 
             // create attributes
             var attributeList = CreateNewPlayerAttributes(player);
             foreach (var attr in attributeList)
             {
-                _playerAttributeQuery.Add(attr);
+                _playerAttributeService.Add(attr);
             }
 
             // create stats
-            var result = _playerStatsQuery.Add(new PlayerStats { PlayerId=player.Id});
+            var result = _playerStatsService.Add(new PlayerStats { PlayerId=player.Id});
 
             // set player rating and value
             player.Rating = RecalculatePlayerRating(attributeList);
             player.Value = RecalculatePlayerValue(attributeList);
 
-            _playerQuery.Update(player);
-
-
+            _playerService.Update(player);
         }
         // Primitive !
         private int RecalculatePlayerRating(IEnumerable<PlayerAttribute> attributeList)
