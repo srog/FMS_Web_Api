@@ -36,6 +36,7 @@ namespace Fms_Web_Api.Data.Queries
                 {
                     { "age", player.Age },
                     { "injuredWeeks", player.InjuredWeeks },
+                    { "suspendedWeeks", player.SuspendedWeeks },
                     { "position", player.Position },
                     { "name", player.Name },
                     { "rating", player.Rating },
@@ -53,6 +54,7 @@ namespace Fms_Web_Api.Data.Queries
                     player.Id,
                     player.Age,
                     player.InjuredWeeks,
+                    player.SuspendedWeeks,
                     player.Position,
                     player.Name,
                     player.Rating,

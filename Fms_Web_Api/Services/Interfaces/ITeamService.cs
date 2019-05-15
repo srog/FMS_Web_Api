@@ -10,5 +10,6 @@ namespace Fms_Web_Api.Services.Interfaces
         int Update(Team team);
         void CreateAllTeamsForGame(int gameId);
         List<Team> GetTeamsForGame(int gameId);
+        string GetTeamName(int teamId);
     }
 }

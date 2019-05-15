@@ -13,6 +13,8 @@ namespace Fms_Web_Api.Services
         private readonly ITeamQuery _teamQuery;
         private readonly IConfiguration _configuration;
 
+        public static Dictionary<int, string> TeamNames = new Dictionary<int, string>();
+
         public TeamService(ITeamQuery teamQuery, IConfiguration config)
         {
             _teamQuery = teamQuery;
@@ -68,6 +70,24 @@ namespace Fms_Web_Api.Services
         public List<Team> GetTeamsForGame(int gameId)
         {
             return _teamQuery.GetByGame(gameId).ToList();
+        }
+
+        public string GetTeamName(int teamId)
+        {
+            if (!TeamNames.ContainsKey(teamId))
+            {
+                string name;
+                if (teamId == 0)
+                {
+                    name = "(Unattached)";
+                }
+                else
+                {
+                    name = Get(teamId).Name;
+                }
+                TeamNames.Add(teamId, name);
+            }
+            return TeamNames.GetValueOrDefault(teamId);
         }
     }
 }

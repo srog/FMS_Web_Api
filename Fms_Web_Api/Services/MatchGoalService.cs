@@ -19,5 +19,10 @@ namespace Fms_Web_Api.Services
         {
             return _matchGoalQuery.GetAllForMatch(matchId).ToList();
         }
+
+        public int Insert(MatchGoal matchGoal)
+        {
+            return _matchGoalQuery.Insert(matchGoal);
+        }
     }
 }

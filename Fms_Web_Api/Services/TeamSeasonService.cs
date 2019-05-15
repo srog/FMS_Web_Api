@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fms_Web_Api.Data.Interfaces;
 using Fms_Web_Api.Models;
@@ -11,19 +10,19 @@ namespace Fms_Web_Api.Services
     {
         private readonly ITeamSeasonQuery _teamSeasonQuery;
         private readonly IFixtureGenerator _fixtureGenerator;
-        private readonly INewsQuery _newsQuery;
-        private readonly ITeamQuery _teamQuery;
+        private readonly INewsService _newsService;
+        private readonly ITeamService _teamService;
 
         public TeamSeasonService(
             ITeamSeasonQuery teamSeasonQuery, 
             IFixtureGenerator fixtureGenerator,
-            INewsQuery newsQuery,
-            ITeamQuery teamQuery)
+            INewsService newsService,
+            ITeamService teamService)
         {
             _teamSeasonQuery = teamSeasonQuery;
             _fixtureGenerator = fixtureGenerator;
-            _newsQuery = newsQuery;
-            _teamQuery = teamQuery;
+            _newsService = newsService;
+            _teamService = teamService;
         }
         #region Implementation of ITeamSeasonService
 
@@ -112,15 +111,20 @@ namespace Fms_Web_Api.Services
                     newPosition = 10 + newPosition;
 
                     // Add news item for promotion
-                    _newsQuery.Add(new News
+                    var news = new News
                     {
                         GameDetailsId = gameDetailsId,
                         TeamId = teamSeason.TeamId,
                         SeasonId = oldSeasonId,
                         Week = 23,
-                        DivisionId = teamSeason.DivisionId,
-                        NewsText = _teamQuery.Get(teamSeason.TeamId).Name + " promoted to division " + newDivision
-                    });
+                        DivisionId = teamSeason.DivisionId
+                    };
+                    _newsService.CreateProRelNewsItem(new PromotionNews
+                        {
+                            News = news,
+                            Division = newDivision,
+                            TeamName = _teamService.GetTeamName(teamSeason.TeamId)
+                        });
                 }
                 if ((teamSeason.Position > 10)
                     && (teamSeason.DivisionId < 4))
@@ -128,15 +132,20 @@ namespace Fms_Web_Api.Services
                     newDivision++;
                     newPosition = newPosition - 10;
                     // add news item for relegation
-                    _newsQuery.Add(new News
+                    var news = new News
                     {
                         GameDetailsId = gameDetailsId,
                         TeamId = teamSeason.TeamId,
                         SeasonId = oldSeasonId,
                         Week = 23,
-                        DivisionId = teamSeason.DivisionId,
-                        NewsText = _teamQuery.Get(teamSeason.TeamId).Name + " relegated to division " + newDivision
-                    });
+                        DivisionId = teamSeason.DivisionId
+                    };
+                    _newsService.CreateProRelNewsItem(new PromotionNews
+                        {
+                            News = news,
+                            Division = newDivision,
+                            TeamName = _teamService.GetTeamName(teamSeason.TeamId)
+                        }, false);
                 }
 
                 var id = Add(new TeamSeason

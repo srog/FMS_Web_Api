@@ -10,6 +10,9 @@ namespace Fms_Web_Api.Services
     {
         private readonly IPlayerQuery _playerQuery;
 
+        private static Dictionary<int, List<int>> SquadCache = new Dictionary<int, List<int>>();
+        public static Dictionary<int, string> PlayerNames = new Dictionary<int, string>();
+
         public PlayerService(IPlayerQuery playerQuery)
         {
             _playerQuery = playerQuery;
@@ -25,9 +28,23 @@ namespace Fms_Web_Api.Services
             return _playerQuery.GetAll(new Player { TeamId = teamId}).ToList();
         }
 
+        public List<Player> GetSelectedTeam(int teamId)
+        {
+            return _playerQuery.GetAll(new Player { TeamId = teamId }).Where(p => p.IsSelected).ToList();
+        }
+
         public Player Get(int id)
         {
             return _playerQuery.Get(id);
+        }
+
+        public string GetPlayerName(int playerId)
+        {
+            if (!PlayerNames.ContainsKey(playerId))
+            {
+                PlayerNames.Add(playerId, Get(playerId).Name);
+            }
+            return PlayerNames.GetValueOrDefault(playerId);
         }
 
         public int Add(Player player)
@@ -48,6 +65,19 @@ namespace Fms_Web_Api.Services
         public int AdvanceAllAges(int gameDetailsId)
         {
             return _playerQuery.AdvanceAllAges(gameDetailsId);
+        }
+
+        public int GetRandomPlayerFromTeam(int teamId, bool includeKeeper = true, bool includeInjured = true, bool includeSuspended = true)
+        {
+            if (!SquadCache.ContainsKey(teamId))
+            {
+                var players = GetSelectedTeam(teamId);
+                SquadCache.Add(teamId, players.Select(p => p.Id).ToList());
+            }
+            var playerList = SquadCache.GetValueOrDefault(teamId);
+
+            var playerIndex = Utilities.Utilities.GetRandomNumber(0, playerList.Count - 1);
+            return playerList[playerIndex];
         }
 
         public void Delete(int gameDetailsId)
