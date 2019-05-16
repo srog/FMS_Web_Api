@@ -9,11 +9,13 @@ namespace Fms_Web_Api.Controllers
     [ApiController]
     public class PlayerAttributeController : ControllerBase
     {
-        private IPlayerAttributeService _playerAttributeService { get; }
+        private readonly IPlayerAttributeService _playerAttributeService;
+        private readonly IPlayerService _playerService;
 
-        public PlayerAttributeController(IPlayerAttributeService playerAttributeService)
+        public PlayerAttributeController(IPlayerAttributeService playerAttributeService, IPlayerService playerService)
         {
             _playerAttributeService = playerAttributeService;
+            _playerService = playerService;
         }
 
         // GET api/playerattribute?id=5
@@ -41,7 +43,9 @@ namespace Fms_Web_Api.Controllers
         [HttpPut]
         public int Put([FromBody] PlayerAttribute playerAttribute)
         {
-            return _playerAttributeService.Update(playerAttribute);
+            var result = _playerAttributeService.Update(playerAttribute);
+            _playerService.RecalculateRatingAndValue(playerAttribute.PlayerId);
+            return result;
         }
     }
 }

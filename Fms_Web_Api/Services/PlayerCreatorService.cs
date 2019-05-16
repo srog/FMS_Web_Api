@@ -191,42 +191,12 @@ namespace Fms_Web_Api.Services
             }
 
             // create stats
-            var result = _playerStatsService.Add(new PlayerStats { PlayerId=player.Id});
+            _playerStatsService.Add(new PlayerStats { PlayerId=playerId});
 
-            // set player rating and value
-            player.Rating = RecalculatePlayerRating(attributeList);
-            player.Value = RecalculatePlayerValue(attributeList);
-
-            _playerService.Update(player);
-        }
-        // Primitive !
-        private int RecalculatePlayerRating(IEnumerable<PlayerAttribute> attributeList)
-        {
-            var total = attributeList.Sum(a => a.AttributeValue);
-            return (total / 12);
+            _playerService.RecalculateRatingAndValue(playerId);
         }
 
-        // Primitive !
-        private int RecalculatePlayerValue(IEnumerable<PlayerAttribute> attributeList)
-        {
-            var total = attributeList.Sum(a => a.AttributeValue);
-            int mean = (int)(total / 12);
-
-            if (mean > 80)
-            {
-                return mean * 1000000;
-            }
-            if (mean > 50)
-            {
-                return ((mean - 50) * 15000);
-            }
-            if (mean < 25)
-            {
-                return 0;
-            }
-            return (mean * 500);
-        }
-
+      
         private IEnumerable<PlayerAttribute> CreateNewPlayerAttributes(Player player)
         {
             var attributeList = new List<PlayerAttribute>();
