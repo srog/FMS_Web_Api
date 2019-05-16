@@ -13,6 +13,7 @@ namespace Fms_Web_Api.Services.Interfaces
         string GetPlayerName(int playerId);
         int Add(Player player);
         int Update(Player player);
+        void RecalculateRatingAndValue(int playerId);
         int Retire(int id);
         int AdvanceAllAges(int gameDetailsId);
         void Delete(int gameDetailsId);
