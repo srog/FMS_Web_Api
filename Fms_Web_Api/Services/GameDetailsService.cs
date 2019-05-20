@@ -9,10 +9,12 @@ namespace Fms_Web_Api.Services
     public class GameDetailsService : IGameDetailsService
     {
         private readonly IGameDetailsQuery _gameDetailsQuery;
+        private readonly IPlayerService _playerService;
 
-        public GameDetailsService(IGameDetailsQuery gameDetailsQuery)
+        public GameDetailsService(IGameDetailsQuery gameDetailsQuery, IPlayerService playerService)
         {
             _gameDetailsQuery = gameDetailsQuery;
+            _playerService = playerService;
         }
         #region Implementation of IGameDetailsService
 
@@ -34,6 +36,21 @@ namespace Fms_Web_Api.Services
         public int Update(GameDetails gameDetails)
         {
             return _gameDetailsQuery.Update(gameDetails);
+        }
+
+
+        public int AdvanceWeek(GameDetails gameDetails)
+        {
+            gameDetails.CurrentWeek++;
+            _gameDetailsQuery.Update(gameDetails);
+            _playerService.AdvanceWeek(gameDetails);
+            return 0;
+        }
+        public int AdvanceSeason(GameDetails gameDetails)
+        {
+            // TODO 
+
+            return 0;
         }
 
         public int Delete(int id)

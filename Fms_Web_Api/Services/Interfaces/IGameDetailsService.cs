@@ -9,6 +9,8 @@ namespace Fms_Web_Api.Services.Interfaces
         GameDetails Get(int id);
         int Insert(GameDetails gameDetails);
         int Update(GameDetails gameDetails);
+        int AdvanceWeek(GameDetails gameDetails);
+        int AdvanceSeason(GameDetails gameDetails);
         int Delete(int id);
     }
 }

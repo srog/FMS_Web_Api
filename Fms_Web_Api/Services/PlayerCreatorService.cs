@@ -46,7 +46,7 @@ namespace Fms_Web_Api.Services
                 5.TimesWithIndex((i) => CreatePlayer(team.Id, 4, gameDetailsId));
 
                 RecalculateSquadValues(team);
-                SetTeamSelection(team);
+                _playerService.SetTeamSelection(team);
             }
 
             SetInitialInjuries(teamList.ToList());
@@ -70,7 +70,7 @@ namespace Fms_Web_Api.Services
                 // adjust team selection
                 if (player.IsSelected)
                 {
-                    SetTeamSelection(_teamService.Get(player.TeamId.Value));
+                    _playerService.SetTeamSelection(_teamService.Get(player.TeamId.Value));
                 }
 
                 // Add news item
@@ -92,80 +92,6 @@ namespace Fms_Web_Api.Services
         private void RecalculateSquadValues(Team team)
         {
             
-        }
-
-        // Primitive
-        private void SetTeamSelection(Team team)
-        {
-            var formations = _configuration.GetSection("FormationSection").Get<Formations>();
-            var teamFormation = formations.FormationList.First(f => f.Id == team.FormationId);
-
-            var allPlayers = _playerService.GetTeamSquad(team.Id);
-            foreach (var player in allPlayers)
-            {
-                player.TeamSelection = 0;
-            }
-
-            // GK
-            var playerSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Goalkeeper);
-            if (playerSelected > 0)
-            {
-                allPlayers.First(p => p.Id == playerSelected).TeamSelection = 1;
-            }
-
-            // Def
-            for (var def = 1; def <= teamFormation.Defenders; def++)
-            {
-                var defenderSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Defender);
-                if (defenderSelected > 0)
-                {
-                    allPlayers.First(p => p.Id == defenderSelected).TeamSelection = 1 + def;
-                }
-            }
-
-            // Mid
-            for (var mid = 1; mid <= teamFormation.Midfielders; mid++)
-            {
-                var midSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Midfielder);
-                if (midSelected > 0)
-                {
-                    allPlayers.First(p => p.Id == midSelected).TeamSelection = 1 + teamFormation.Defenders + mid;
-                }
-            }
-
-            // Att
-            for (var att = 1; att <= teamFormation.Attackers; att++)
-            {
-                var attSelected = GetNextAvailablePlayerForPosition(allPlayers, PositionEnum.Striker);
-                if (attSelected > 0)
-                {
-                    allPlayers.First(p => p.Id == attSelected).TeamSelection = 1 + teamFormation.Defenders + teamFormation.Midfielders + att;
-                }
-            }
-
-            // If any positions haven't been filled....do something !
-
-            // Update with new selections
-            foreach (var player in allPlayers)
-            {
-                _playerService.Update(player);
-            }
-
-        }
-
-        private int GetNextAvailablePlayerForPosition(IEnumerable<Player> playerList, PositionEnum position)
-        {
-            var playerSelected = 0;
-            var playerSelectedRating = 0;
-            foreach (var p in playerList.Where(p => p.Position == position.GetHashCode() && p.IsAvailable && p.TeamSelection == 0))
-            {
-                if (p.Rating > playerSelectedRating)
-                {
-                    playerSelected = p.Id;
-                    playerSelectedRating = p.Rating;
-                }
-            }
-            return playerSelected;
         }
 
         // change to decorator pattern !

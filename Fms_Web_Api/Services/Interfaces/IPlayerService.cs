@@ -14,8 +14,10 @@ namespace Fms_Web_Api.Services.Interfaces
         int Add(Player player);
         int Update(Player player);
         void RecalculateRatingAndValue(int playerId);
+        void SetTeamSelection(Team team);
         int Retire(int id);
-        int AdvanceAllAges(int gameDetailsId);
+        int AdvanceSeason(int gameDetailsId);
+        int AdvanceWeek(GameDetails gameDetails);
         void Delete(int gameDetailsId);
     }
 }
